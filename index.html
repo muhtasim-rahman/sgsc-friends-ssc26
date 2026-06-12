@@ -3,465 +3,1078 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SGSC (SSC-26) - Banner Generator</title>
-    
+    <title>SGSC Friends Collage - SSC-26</title>
+
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    
-    <!-- FontAwesome for Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
-                    },
-                    colors: {
-                        primary: '#2563eb',
-                        secondary: '#475569',
-                    }
-                }
-            }
-        }
-    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
-    <!-- ==========================================
-         CSS SECTION (SEPARATED FOR CLEANLINESS)
-         ========================================== -->
+    <!-- Font Awesome 6 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
     <style>
+        :root {
+            --bg: #f8f9fb;
+            --surface: #ffffff;
+            --surface-alt: #f1f3f6;
+            --border: #e2e5ea;
+            --border-light: #eef0f3;
+            --text: #1a1d23;
+            --text-secondary: #5f6368;
+            --text-muted: #8b9098;
+            --accent: #4f6ef7;
+            --accent-hover: #3b54d4;
+            --accent-light: #eef1fd;
+            --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.04);
+            --shadow: 0 2px 8px rgba(0, 0, 0, 0.06), 0 1px 3px rgba(0, 0, 0, 0.04);
+            --shadow-lg: 0 8px 30px rgba(0, 0, 0, 0.08), 0 2px 8px rgba(0, 0, 0, 0.04);
+            --radius-sm: 8px;
+            --radius: 12px;
+            --radius-lg: 16px;
+            --radius-xl: 20px;
+            --transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            --font: 'Inter', system-ui, -apple-system, sans-serif;
+            --font-display: 'Outfit', 'Inter', system-ui, sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
-            font-family: 'Inter', sans-serif;
-            background-color: #f8fafc;
+            font-family: var(--font);
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            min-height: 100vh;
         }
 
-        /* * The Main .page Container 
-         * Designed to behave like a fixed aspect ratio canvas 
-         */
-        .page-wrapper {
-            width: 100%;
-            max-width: 1000px;
+        /* Navbar */
+        .navbar {
+            background: var(--surface);
+            border-bottom: 1px solid var(--border);
+            padding: 0 24px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: var(--shadow-sm);
+            gap: 16px;
+        }
+        .navbar-brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            color: var(--text);
+            font-weight: 700;
+            font-size: 1.1rem;
+            font-family: var(--font-display);
+            letter-spacing: -0.01em;
+        }
+        .navbar-brand img {
+            height: 38px;
+            width: 38px;
+            border-radius: var(--radius-sm);
+            object-fit: cover;
+            border: 2px solid var(--border-light);
+        }
+        .navbar-brand span {
+            background: linear-gradient(135deg, #4f6ef7, #7b5cff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .navbar-actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            padding: 9px 16px;
+            border-radius: var(--radius-sm);
+            font-size: 0.875rem;
+            font-weight: 500;
+            cursor: pointer;
+            border: 1px solid transparent;
+            transition: var(--transition);
+            font-family: var(--font);
+            white-space: nowrap;
+            text-decoration: none;
+            letter-spacing: 0.01em;
+        }
+        .btn-primary {
+            background: var(--accent);
+            color: #fff;
+            border-color: var(--accent);
+        }
+        .btn-primary:hover {
+            background: var(--accent-hover);
+            border-color: var(--accent-hover);
+        }
+        .btn-outline {
+            background: var(--surface);
+            color: var(--text);
+            border-color: var(--border);
+        }
+        .btn-outline:hover {
+            background: var(--surface-alt);
+            border-color: #cdd1d8;
+        }
+        .btn-sm {
+            padding: 6px 12px;
+            font-size: 0.8rem;
+            border-radius: 6px;
+        }
+        .btn-icon {
+            width: 36px;
+            height: 36px;
+            padding: 0;
+            justify-content: center;
+            border-radius: var(--radius-sm);
+        }
+
+        /* Main Layout */
+        .main-container {
+            max-width: 1400px;
             margin: 0 auto;
-            background: #ffffff;
-            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
-            overflow: hidden;
-            border-radius: 8px;
-            transition: aspect-ratio 0.3s ease;
+            padding: 24px 20px 40px;
         }
 
+        /* Controls Panel */
+        .controls-panel {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 20px 24px;
+            margin-bottom: 24px;
+            box-shadow: var(--shadow);
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px 24px;
+            align-items: flex-end;
+        }
+        .control-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+        .control-group label {
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            color: var(--text-muted);
+        }
+        .control-group select,
+        .control-group input {
+            padding: 9px 12px;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            font-size: 0.875rem;
+            font-family: var(--font);
+            background: var(--surface);
+            color: var(--text);
+            transition: var(--transition);
+            min-width: 140px;
+            cursor: pointer;
+        }
+        .control-group select:hover,
+        .control-group input:hover {
+            border-color: #c5c9d1;
+        }
+        .control-group select:focus,
+        .control-group input:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px var(--accent-light);
+        }
+        .control-group input[type="number"] {
+            width: 80px;
+            min-width: 70px;
+            text-align: center;
+        }
+        .preset-btns {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+        .preset-btn {
+            padding: 7px 13px;
+            border-radius: 20px;
+            font-size: 0.78rem;
+            font-weight: 500;
+            cursor: pointer;
+            border: 1px solid var(--border);
+            background: var(--surface);
+            color: var(--text-secondary);
+            transition: var(--transition);
+            font-family: var(--font);
+        }
+        .preset-btn:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+            background: var(--accent-light);
+        }
+        .preset-btn.active {
+            background: var(--accent);
+            color: #fff;
+            border-color: var(--accent);
+        }
+        .ratio-display {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+            padding: 4px 10px;
+            background: var(--surface-alt);
+            border-radius: 20px;
+            display: inline-block;
+        }
+
+        /* Page / Collage Container */
+        .page-wrapper {
+            background: var(--surface);
+            border: 2px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 16px;
+            box-shadow: var(--shadow-lg);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: auto;
+            min-height: 200px;
+            position: relative;
+        }
         .page {
+            display: flex;
+            gap: 6px;
+            position: relative;
+            background: #e8eaef;
+            border-radius: 4px;
+            overflow: hidden;
+            flex-shrink: 0;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.07);
+        }
+        /* Landscape 2-col layout */
+        .page.layout-landscape-right,
+        .page.layout-landscape-left {
+            flex-direction: row;
+        }
+        .page.layout-landscape-right .grid-container {
+            order: 1;
+        }
+        .page.layout-landscape-right .main-image-container {
+            order: 2;
+        }
+        .page.layout-landscape-left .grid-container {
+            order: 2;
+        }
+        .page.layout-landscape-left .main-image-container {
+            order: 1;
+        }
+        /* Portrait stacked */
+        .page.layout-portrait-top,
+        .page.layout-portrait-bottom {
+            flex-direction: column;
+        }
+        .page.layout-portrait-bottom .grid-container {
+            order: 1;
+        }
+        .page.layout-portrait-bottom .main-image-container {
+            order: 2;
+        }
+        .page.layout-portrait-top .grid-container {
+            order: 2;
+        }
+        .page.layout-portrait-top .main-image-container {
+            order: 1;
+        }
+        /* Center layout */
+        .page.layout-center {
+            display: grid;
+            grid-template-columns: repeat(10, 1fr);
+            grid-template-rows: repeat(7, 1fr);
+            gap: 3px;
+        }
+        .page.layout-center .grid-container {
+            display: contents;
+        }
+        .page.layout-center .grid-container .thumb {
+            aspect-ratio: 3 / 4;
+            object-fit: cover;
             width: 100%;
             height: 100%;
-            background-color: #ffffff;
-            /* Container for dynamic layouts */
+            cursor: pointer;
+            border-radius: 1px;
+            transition: var(--transition);
+            display: block;
         }
-
-        /* Common image styling within collage */
-        .page img {
+        .page.layout-center .grid-container .thumb:hover {
+            outline: 2px solid var(--accent);
+            outline-offset: 1px;
+            z-index: 2;
+            transform: scale(1.04);
+            box-shadow: var(--shadow-lg);
+            border-radius: 2px;
+        }
+        .page.layout-center .main-image-container {
+            grid-column: 3 / 9;
+            grid-row: 2 / 7;
+            z-index: 3;
+            border-radius: 3px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            border: 3px solid #fff;
+        }
+        .page.layout-center .main-image-container img {
             width: 100%;
             height: 100%;
             object-fit: cover;
             display: block;
-            cursor: pointer;
-            transition: opacity 0.2s ease, transform 0.2s ease;
         }
 
-        .page img:hover {
-            opacity: 0.9;
-        }
-
-        .small-image img:hover {
-            transform: scale(1.02);
-            z-index: 10;
-            position: relative;
-        }
-
-        /* Layout: Left & Right (Flex) */
-        .layout-left, .layout-right {
-            display: flex;
-        }
-        .layout-right {
-            flex-direction: row-reverse;
-        }
-        
-        .flex-main-container {
-            width: 35%; /* Main image takes 35% */
-            height: 100%;
-        }
-        .flex-grid-container {
-            width: 65%;
-            height: 100%;
+        /* Grid container (60 images) */
+        .grid-container {
             display: grid;
+            gap: 2px;
+            flex-shrink: 0;
+        }
+        .grid-container.grid-10x6 {
             grid-template-columns: repeat(10, 1fr);
             grid-template-rows: repeat(6, 1fr);
-            gap: 2px;
-            padding: 2px;
         }
-
-        /* Layout: Top & Bottom (Flex Column) */
-        .layout-top, .layout-bottom {
-            display: flex;
-        }
-        .layout-top {
-            flex-direction: column;
-        }
-        .layout-bottom {
-            flex-direction: column-reverse;
-        }
-
-        .flex-main-container-portrait {
-            width: 100%;
-            height: 40%; /* Main image takes 40% height */
-        }
-        .flex-grid-container-portrait {
-            width: 100%;
-            height: 60%;
-            display: grid;
+        .grid-container.grid-12x5 {
             grid-template-columns: repeat(12, 1fr);
             grid-template-rows: repeat(5, 1fr);
-            gap: 2px;
-            padding: 2px;
         }
-
-        /* Layout: Center (CSS Grid Auto Dense) */
-        .layout-center {
-            display: grid;
-            grid-template-columns: repeat(12, 1fr);
-            grid-template-rows: repeat(7, 1fr);
-            gap: 2px;
-            padding: 2px;
-            grid-auto-flow: dense;
-        }
-
-        .layout-center .main-image-wrapper {
-            grid-column: 4 / 10; /* Spans 6 columns out of 12 */
-            grid-row: 2 / 6;     /* Spans 4 rows out of 7 */
-            z-index: 5;
-        }
-
-        .layout-center .small-image {
+        .grid-container .thumb {
+            aspect-ratio: 3 / 4;
+            object-fit: cover;
             width: 100%;
             height: 100%;
+            cursor: pointer;
+            border-radius: 1px;
+            transition: var(--transition);
+            display: block;
+            background: #d5d7dc;
+        }
+        .grid-container .thumb:hover {
+            outline: 2px solid var(--accent);
+            outline-offset: 1px;
+            z-index: 2;
+            transform: scale(1.06);
+            box-shadow: var(--shadow-lg);
+            border-radius: 2px;
+            position: relative;
+        }
+        .grid-container .thumb.active-thumb {
+            outline: 2px solid #ff9800;
+            outline-offset: -1px;
+            z-index: 1;
         }
 
-        /* Range Slider Custom Styling */
-        input[type=range] {
-            -webkit-appearance: none;
-            width: 100%;
-            background: transparent;
-        }
-        input[type=range]::-webkit-slider-thumb {
-            -webkit-appearance: none;
-            height: 16px;
-            width: 16px;
-            border-radius: 50%;
-            background: #2563eb;
-            cursor: pointer;
-            margin-top: -6px;
-        }
-        input[type=range]::-webkit-slider-runnable-track {
-            width: 100%;
-            height: 4px;
-            cursor: pointer;
-            background: #cbd5e1;
+        /* Main image container */
+        .main-image-container {
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
             border-radius: 2px;
+            position: relative;
+            background: #d0d3d9;
+        }
+        .main-image-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+        .main-image-label {
+            position: absolute;
+            bottom: 8px;
+            right: 10px;
+            background: rgba(0, 0, 0, 0.65);
+            color: #fff;
+            font-size: 0.7rem;
+            padding: 3px 9px;
+            border-radius: 12px;
+            pointer-events: none;
+            font-weight: 500;
+            letter-spacing: 0.03em;
+        }
+
+        /* How to Use Section */
+        .how-to-use {
+            margin-top: 40px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 32px 28px;
+            box-shadow: var(--shadow);
+        }
+        .how-to-use h2 {
+            font-family: var(--font-display);
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 6px;
+            letter-spacing: -0.02em;
+        }
+        .how-to-use .subtitle {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-bottom: 24px;
+        }
+        .steps-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 20px;
+        }
+        .step-card {
+            background: var(--surface-alt);
+            border-radius: var(--radius);
+            padding: 20px 18px;
+            border: 1px solid var(--border-light);
+            transition: var(--transition);
+            position: relative;
+        }
+        .step-card:hover {
+            box-shadow: var(--shadow);
+            border-color: #d5d9df;
+        }
+        .step-number {
+            width: 32px;
+            height: 32px;
+            background: var(--accent);
+            color: #fff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.85rem;
+            margin-bottom: 12px;
+        }
+        .step-card h4 {
+            font-weight: 600;
+            margin-bottom: 6px;
+            font-size: 0.95rem;
+            letter-spacing: -0.01em;
+        }
+        .step-card p {
+            font-size: 0.82rem;
+            color: var(--text-secondary);
+            line-height: 1.5;
+        }
+        .step-card code {
+            background: #e4e7ec;
+            padding: 2px 7px;
+            border-radius: 4px;
+            font-size: 0.78rem;
+            font-family: 'SF Mono', 'Fira Code', monospace;
+        }
+        .github-guide-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 20px;
+            padding: 10px 18px;
+            background: #24292e;
+            color: #fff;
+            border-radius: var(--radius-sm);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.88rem;
+            transition: var(--transition);
+        }
+        .github-guide-link:hover {
+            background: #1b1f23;
+            box-shadow: var(--shadow);
+        }
+        .github-guide-link i {
+            font-size: 1.1rem;
+        }
+
+        /* Footer */
+        .site-footer {
+            margin-top: 48px;
+            padding: 28px 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-top: 1px solid var(--border);
+            background: var(--surface);
+        }
+        .footer-badge {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            background: var(--surface-alt);
+            padding: 12px 20px 12px 12px;
+            border-radius: 40px;
+            border: 1px solid var(--border-light);
+            box-shadow: var(--shadow-sm);
+            transition: var(--transition);
+            text-decoration: none;
+            color: var(--text);
+        }
+        .footer-badge:hover {
+            box-shadow: var(--shadow);
+            border-color: #d0d4db;
+        }
+        .footer-badge-avatar {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid #fff;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+            flex-shrink: 0;
+        }
+        .footer-badge-info {
+            display: flex;
+            flex-direction: column;
+            gap: 1px;
+        }
+        .footer-badge-info .name {
+            font-weight: 600;
+            font-size: 0.9rem;
+            letter-spacing: -0.01em;
+            color: var(--text);
+        }
+        .footer-badge-info .link-hint {
+            font-size: 0.72rem;
+            color: var(--text-muted);
+        }
+        .footer-socials {
+            display: flex;
+            gap: 8px;
+            margin-left: 8px;
+            align-items: center;
+        }
+        .footer-socials a {
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-secondary);
+            background: var(--surface);
+            border: 1px solid var(--border-light);
+            transition: var(--transition);
+            text-decoration: none;
+            font-size: 0.85rem;
+        }
+        .footer-socials a:hover {
+            color: var(--accent);
+            border-color: var(--accent);
+            background: var(--accent-light);
+            box-shadow: var(--shadow-sm);
+        }
+
+        /* Toast */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: #1a1d23;
+            color: #fff;
+            padding: 12px 22px;
+            border-radius: 28px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            z-index: 999;
+            pointer-events: none;
+            opacity: 0;
+            transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 8px 28px rgba(0, 0, 0, 0.25);
+        }
+        .toast.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .controls-panel {
+                flex-direction: column;
+                gap: 12px;
+                padding: 16px;
+            }
+            .control-group select,
+            .control-group input {
+                width: 100%;
+                min-width: auto;
+            }
+            .page-wrapper {
+                padding: 8px;
+            }
+            .page {
+                gap: 3px;
+            }
+            .grid-container {
+                gap: 1px;
+            }
+            .how-to-use {
+                padding: 20px 16px;
+            }
+            .steps-grid {
+                grid-template-columns: 1fr;
+            }
+            .navbar {
+                padding: 0 12px;
+            }
+            .navbar-brand {
+                font-size: 0.9rem;
+                gap: 8px;
+            }
+            .navbar-brand img {
+                height: 30px;
+                width: 30px;
+            }
+            .footer-badge {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 10px;
+                padding: 14px 16px;
+            }
         }
     </style>
 </head>
-<body class="flex flex-col min-h-screen">
+<body>
 
     <!-- Navbar -->
-    <nav class="bg-white border-b border-slate-200 sticky top-0 z-50">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between h-16">
-                <div class="flex items-center gap-3">
-                    <!-- Logo / SGSC Image with fallback -->
-                    <img src="images/sgsc.gif" onerror="this.onerror=null; this.src='https://placehold.co/100x100/2563eb/ffffff?text=SGSC';" alt="SGSC Logo" class="h-10 w-10 rounded-full object-cover border border-slate-300">
-                    <span class="font-bold text-xl text-slate-800 tracking-tight">SGSC SSC-26</span>
-                </div>
-                <div class="flex items-center">
-                    <span class="text-sm font-medium text-slate-500 bg-slate-100 px-3 py-1 rounded-full">Banner Engine</span>
-                </div>
-            </div>
+    <nav class="navbar">
+        <a href="#" class="navbar-brand">
+            <img src="images/sgsc.jpg" alt="SGSC Logo" onerror="this.style.display='none'; this.nextElementSibling.style.display='inline';">
+            <span>SGSC Friends Collage</span>
+            <span style="display:none; font-size:0.85rem; color:var(--text-secondary);">SSC-26 Batch</span>
+        </a>
+        <div class="navbar-actions">
+            <span style="font-size:0.8rem;color:var(--text-muted);font-weight:500;">SSC-26</span>
         </div>
     </nav>
 
-    <!-- Main Content -->
-    <main class="flex-grow w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        
-        <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
-            <!-- Controls Panel -->
-            <div class="lg:col-span-1 space-y-6 bg-white p-6 rounded-xl border border-slate-200 shadow-sm">
-                <div>
-                    <h3 class="text-lg font-semibold text-slate-800 mb-1">Layout Settings</h3>
-                    <p class="text-xs text-slate-500 mb-4">Customize the collage appearance</p>
-                </div>
+    <!-- Main Container -->
+    <div class="main-container">
 
-                <!-- Position Control -->
-                <div class="space-y-2">
-                    <label class="block text-sm font-medium text-slate-700">Main Image Position</label>
-                    <div class="grid grid-cols-2 gap-2">
-                        <button onclick="changeLayout('left')" id="btn-left" class="layout-btn w-full px-3 py-2 text-sm border rounded-md hover:bg-slate-50 transition-colors">Left</button>
-                        <button onclick="changeLayout('right')" id="btn-right" class="layout-btn w-full px-3 py-2 text-sm border rounded-md hover:bg-slate-50 transition-colors">Right</button>
-                        <button onclick="changeLayout('top')" id="btn-top" class="layout-btn w-full px-3 py-2 text-sm border rounded-md hover:bg-slate-50 transition-colors">Top</button>
-                        <button onclick="changeLayout('bottom')" id="btn-bottom" class="layout-btn w-full px-3 py-2 text-sm border rounded-md hover:bg-slate-50 transition-colors">Bottom</button>
-                        <button onclick="changeLayout('center')" id="btn-center" class="layout-btn w-full px-3 py-2 text-sm border rounded-md hover:bg-slate-50 transition-colors col-span-2">Center</button>
-                    </div>
-                </div>
-
-                <!-- Aspect Ratio Preset -->
-                <div class="space-y-2 pt-2 border-t border-slate-100">
-                    <label class="block text-sm font-medium text-slate-700">Aspect Ratio Presets</label>
-                    <select id="ratio-select" onchange="changePresetRatio()" class="w-full border border-slate-300 rounded-md py-2 px-3 text-sm text-slate-700 focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary">
-                        <option value="16/9">Standard Widescreen (16:9)</option>
-                        <option value="820/312">Facebook Banner (820:312)</option>
-                        <option value="4/5">Portrait (4:5)</option>
-                        <option value="custom">Custom Scale</option>
-                    </select>
-                </div>
-
-                <!-- Custom Scale Slider -->
-                <div class="space-y-2 pt-2 border-t border-slate-100" id="custom-scale-container" style="display: none;">
-                    <div class="flex justify-between items-center">
-                        <label class="block text-sm font-medium text-slate-700">Touch Adjust (Ratio)</label>
-                        <span id="scale-value" class="text-xs text-primary font-medium">2.62</span>
-                    </div>
-                    <input type="range" id="scale-slider" min="0.5" max="3.5" step="0.01" value="2.62" oninput="handleCustomScale()">
-                </div>
-                
-                <div class="pt-4 border-t border-slate-100">
-                    <button onclick="resetDefaults()" class="w-full flex items-center justify-center gap-2 px-4 py-2 bg-slate-100 text-slate-700 rounded-md hover:bg-slate-200 transition-colors text-sm font-medium">
-                        <i class="fa-solid fa-rotate-right"></i> Reset Defaults
-                    </button>
+        <!-- Controls Panel -->
+        <div class="controls-panel" id="controlsPanel">
+            <div class="control-group">
+                <label>Layout Type</label>
+                <select id="layoutType">
+                    <option value="landscape-right">Landscape - Main Right</option>
+                    <option value="landscape-left">Landscape - Main Left</option>
+                    <option value="portrait-bottom">Portrait - Main Bottom</option>
+                    <option value="portrait-top">Portrait - Main Top</option>
+                    <option value="center">Center Focus</option>
+                </select>
+            </div>
+            <div class="control-group">
+                <label>Grid Density</label>
+                <select id="gridDensity">
+                    <option value="10x6">10 x 6 (60 images)</option>
+                    <option value="12x5">12 x 5 (60 images)</option>
+                </select>
+            </div>
+            <div class="control-group">
+                <label>Aspect Ratio Preset</label>
+                <div class="preset-btns" id="presetBtns">
+                    <button class="preset-btn active" data-ratio="851:315">FB Cover</button>
+                    <button class="preset-btn" data-ratio="1640:856">FB Group</button>
+                    <button class="preset-btn" data-ratio="2560:1440">YouTube</button>
+                    <button class="preset-btn" data-ratio="1500:500">Twitter</button>
+                    <button class="preset-btn" data-ratio="1080:1080">Square</button>
                 </div>
             </div>
-
-            <!-- Canvas/Preview Panel -->
-            <div class="lg:col-span-3 flex flex-col items-center justify-center bg-slate-100 rounded-xl border border-slate-200 p-4 sm:p-8 min-h-[400px]">
-                
-                <!-- The .page Container -->
-                <div class="page-wrapper banner page" id="main-wrapper" style="aspect-ratio: 820/312;">
-                    <div class="page" id="collage-page">
-                        <!-- Images will be generated here by JavaScript -->
-                    </div>
-                </div>
-                
+            <div class="control-group">
+                <label>Custom Width</label>
+                <input type="number" id="customWidth" value="1200" min="400" max="4000" step="50">
+            </div>
+            <div class="control-group">
+                <label>Custom Height</label>
+                <input type="number" id="customHeight" value="445" min="200" max="4000" step="50">
+            </div>
+            <div class="control-group">
+                <label>&nbsp;</label>
+                <span class="ratio-display" id="ratioDisplay">Ratio: ~2.70:1</span>
             </div>
         </div>
 
-        <!-- Documentation Section -->
-        <div class="mt-16 bg-white rounded-xl border border-slate-200 p-6 sm:p-10 shadow-sm">
-            <h2 class="text-2xl font-bold text-slate-800 mb-6 border-b border-slate-100 pb-4">
-                <i class="fa-solid fa-book-open text-primary mr-2"></i> How to Use
-            </h2>
-            
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-                <div class="bg-slate-50 p-5 rounded-lg border border-slate-100">
-                    <div class="w-10 h-10 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center font-bold text-lg mb-3">1</div>
-                    <h4 class="font-semibold text-slate-800 mb-2">Select Layout</h4>
-                    <p class="text-sm text-slate-600">Choose where you want the main image to appear (Left, Right, Top, Bottom, or perfectly in the Center).</p>
+        <!-- Collage Page -->
+        <div class="page-wrapper" id="pageWrapper">
+            <div class="page banner layout-landscape-right" id="collagePage">
+                <!-- Grid of 60 images -->
+                <div class="grid-container grid-10x6" id="gridContainer"></div>
+                <!-- Main image -->
+                <div class="main-image-container" id="mainImageContainer">
+                    <img src="images/09.jpg" alt="Main Image" id="mainImage" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22300%22 height=%22400%22><rect fill=%22%23c8ccd4%22 width=%22300%22 height=%22400%22/><text x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dy=%22.3em%22 fill=%22%23888%22 font-size=%2220%22>Image</text></svg>'">
+                    <span class="main-image-label">Main: 09.jpg</span>
                 </div>
-                
-                <div class="bg-slate-50 p-5 rounded-lg border border-slate-100">
-                    <div class="w-10 h-10 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center font-bold text-lg mb-3">2</div>
-                    <h4 class="font-semibold text-slate-800 mb-2">Choose Main Image</h4>
-                    <p class="text-sm text-slate-600">Click on any small image inside the collage. It will instantly swap and become the new main image while keeping the rest serial-wise.</p>
-                </div>
-                
-                <div class="bg-slate-50 p-5 rounded-lg border border-slate-100">
-                    <div class="w-10 h-10 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center font-bold text-lg mb-3">3</div>
-                    <h4 class="font-semibold text-slate-800 mb-2">Adjust & Download</h4>
-                    <p class="text-sm text-slate-600">Use the aspect ratio slider to fix the dimensions. Once perfect, use the download panel below to export your customized banner.</p>
-                </div>
-            </div>
-
-            <div class="flex items-center justify-between bg-blue-50 border border-blue-100 p-4 rounded-lg">
-                <div>
-                    <h4 class="font-medium text-blue-800">Need more technical details?</h4>
-                    <p class="text-sm text-blue-600">Check out the complete setup guide and repository structure.</p>
-                </div>
-                <a href="https://github.com/muhtasim-rahman/sgsc-friends-ssc26#readme" target="_blank" class="px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded shadow hover:bg-blue-700 transition-colors">
-                    <i class="fa-brands fa-github mr-1"></i> Read Docs
-                </a>
             </div>
         </div>
 
-    </main>
+        <!-- How to Use Section -->
+        <div class="how-to-use" id="howToUse">
+            <h2>How to Use This Collage Maker</h2>
+            <p class="subtitle">Create your custom SGSC SSC-26 batch banner in a few simple steps.</p>
+            <div class="steps-grid">
+                <div class="step-card">
+                    <div class="step-number">1</div>
+                    <h4>Choose Your Layout</h4>
+                    <p>Select from Landscape, Portrait, or Center Focus layouts. Pick where the main image appears: right, left, top, bottom, or center.</p>
+                </div>
+                <div class="step-card">
+                    <div class="step-number">2</div>
+                    <h4>Pick Grid Density</h4>
+                    <p>Choose <code>10x6</code> or <code>12x5</code> for the 60-image thumbnail grid. Both display exactly 60 images with different visual balance.</p>
+                </div>
+                <div class="step-card">
+                    <div class="step-number">3</div>
+                    <h4>Set Aspect Ratio</h4>
+                    <p>Use preset ratios like Facebook Cover, YouTube Banner, or set custom width and height values for your desired output dimensions.</p>
+                </div>
+                <div class="step-card">
+                    <div class="step-number">4</div>
+                    <h4>Select Main Image</h4>
+                    <p>Click any thumbnail in the 60-image grid to promote it to the main featured spot. The previous main image returns to its numeric position automatically.</p>
+                </div>
+                <div class="step-card">
+                    <div class="step-number">5</div>
+                    <h4>Download Your Banner</h4>
+                    <p>Use the Export button (added automatically below) to download the collage as a high-quality image. Perfect for Facebook banners and group covers.</p>
+                </div>
+                <div class="step-card">
+                    <div class="step-number">6</div>
+                    <h4>Share With Friends</h4>
+                    <p>All 61 images (01.jpg to 61.jpg) from <code>images/</code> folder are used. Each friend can pick their own main image and download their version.</p>
+                </div>
+            </div>
+            <a href="https://github.com/Muhtasim-Rahman/sgsc-friends-ssc26/blob/main/README.md" target="_blank" rel="noopener" class="github-guide-link">
+                <i class="fa-brands fa-github"></i> View Full Guide on GitHub README
+            </a>
+        </div>
 
-    <!-- Exporter Script (As requested by User) -->
-    <script src="https://muhtasim-rahman.github.io/exporter-pro/export.js"></script>
+    </div>
+
+    <!-- Exporter Script -->
+    <script src="https://muhtasim-rahman.github.io/exporter-pro/export.js">
+    </script>
 
     <!-- Footer -->
-    <footer class="bg-white border-t border-slate-200 mt-auto py-8">
-        <div class="max-w-7xl mx-auto px-4 flex flex-col md:flex-row justify-between items-center gap-4">
-            
-            <div class="text-sm text-slate-500">
-                &copy; 2026 SGSC SSC-26 Batch. All rights reserved.
+    <footer class="site-footer">
+        <a href="https://mdturzo.web.app" target="_blank" rel="noopener" class="footer-badge" title="Visit Portfolio">
+            <img src="images/09.jpg" alt="Muhtasim Rahman" class="footer-badge-avatar" onerror="this.style.display='none';">
+            <div class="footer-badge-info">
+                <span class="name">Muhtasim Rahman</span>
+                <span class="link-hint">mdturzo.web.app</span>
             </div>
-
-            <!-- Centered Author Badge -->
-            <a href="https://mdturzo.web.app" target="_blank" class="group flex items-center gap-3 bg-slate-50 border border-slate-200 px-4 py-2 rounded-full hover:bg-blue-50 hover:border-blue-200 transition-all cursor-pointer shadow-sm hover:shadow">
-                <img src="images/muhtasim.webp" onerror="this.onerror=null; this.src='https://placehold.co/100x100/2563eb/ffffff?text=MR';" alt="Muhtasim Rahman" class="w-8 h-8 rounded-full object-cover border-2 border-white shadow-sm">
-                <div class="flex flex-col">
-                    <span class="text-xs text-slate-500 font-medium leading-none">Designed & Built by</span>
-                    <span class="text-sm font-bold text-slate-800 group-hover:text-primary transition-colors">Muhtasim Rahman</span>
-                </div>
+        </a>
+        <div class="footer-socials">
+            <a href="https://github.com/Muhtasim-Rahman/sgsc-friends-ssc26" target="_blank" rel="noopener" title="GitHub Repository">
+                <i class="fa-brands fa-github"></i>
             </a>
-
-            <!-- Social Links -->
-            <div class="flex items-center gap-4 text-slate-400">
-                <a href="https://github.com/muhtasim-rahman/sgsc-friends-ssc26" target="_blank" class="hover:text-slate-800 transition-colors" title="Github Repository"><i class="fa-brands fa-github text-xl"></i></a>
-                <a href="#" target="_blank" class="hover:text-blue-700 transition-colors" title="LinkedIn"><i class="fa-brands fa-linkedin text-xl"></i></a>
-                <a href="#" target="_blank" class="hover:text-red-600 transition-colors" title="YouTube"><i class="fa-brands fa-youtube text-xl"></i></a>
-                <a href="#" target="_blank" class="hover:text-blue-600 transition-colors" title="Facebook"><i class="fa-brands fa-facebook text-xl"></i></a>
-            </div>
-
+            <a href="https://linkedin.com/in/muhtasim-rahman" target="_blank" rel="noopener" title="LinkedIn">
+                <i class="fa-brands fa-linkedin-in"></i>
+            </a>
+            <a href="https://youtube.com/@muhtasimrahman" target="_blank" rel="noopener" title="YouTube">
+                <i class="fa-brands fa-youtube"></i>
+            </a>
+            <a href="https://facebook.com/muhtasim.rahman.turzo" target="_blank" rel="noopener" title="Facebook">
+                <i class="fa-brands fa-facebook-f"></i>
+            </a>
         </div>
     </footer>
 
-    <!-- ==========================================
-         JAVASCRIPT SECTION (SEPARATED)
-         ========================================== -->
+    <!-- Toast notification -->
+    <div class="toast" id="toast"></div>
+
     <script>
-        // Core State
-        const TOTAL_IMAGES = 61;
-        let currentMainImage = 9; // Default to 09.jpg
-        let currentLayout = 'left'; // left, right, top, bottom, center
-
-        // Utility: Pad numbers with leading zero (e.g., 9 -> "09")
-        function padNum(num) {
-            return num.toString().padStart(2, '0');
-        }
-
-        // Utility: Generate Image HTML with fallback
-        function generateImageHTML(id, isMain = false) {
-            const formattedId = padNum(id);
-            const src = `images/${formattedId}.jpg`;
-            const fallbackSrc = `https://placehold.co/400x300/e2e8f0/64748b?text=${formattedId}`;
-            
-            // If it's a small image, add click handler to swap it
-            const clickAttr = isMain ? '' : `onclick="swapMainImage(${id})" title="Click to set as main image"`;
-            const classAttr = isMain ? '' : 'class="w-full h-full object-cover"';
-            
-            return `<img src="${src}" onerror="this.onerror=null; this.src='${fallbackSrc}';" alt="Image ${formattedId}" ${clickAttr} ${classAttr}>`;
-        }
-
-        // Action: Swap main image
-        window.swapMainImage = function(newId) {
-            currentMainImage = newId;
-            renderCollage();
-        };
-
-        // Action: Change layout via buttons
-        window.changeLayout = function(layout) {
-            currentLayout = layout;
-            
-            // Update UI buttons
-            document.querySelectorAll('.layout-btn').forEach(btn => {
-                btn.classList.remove('bg-primary', 'text-white', 'border-primary');
-                btn.classList.add('border-slate-300', 'text-slate-700');
-            });
-            const activeBtn = document.getElementById(`btn-${layout}`);
-            activeBtn.classList.remove('border-slate-300', 'text-slate-700');
-            activeBtn.classList.add('bg-primary', 'text-white', 'border-primary');
-
-            renderCollage();
-        };
-
-        // Render the main collage based on state
-        function renderCollage() {
-            const page = document.getElementById('collage-page');
-            
-            // Reset classes
-            page.className = `page layout-${currentLayout}`;
-
-            // Generate small images array (maintaining serial order for the rest)
-            let smallImages = [];
+        (function() {
+            // ============ STATE ============
+            const TOTAL_IMAGES = 61;
+            const allImages = [];
             for (let i = 1; i <= TOTAL_IMAGES; i++) {
-                if (i !== currentMainImage) {
-                    smallImages.push(i);
+                const padded = String(i).padStart(2, '0');
+                allImages.push(padded + '.jpg');
+            }
+
+            let state = {
+                mainImage: '09.jpg',
+                layoutType: 'landscape-right',
+                gridDensity: '10x6',
+                customWidth: 1200,
+                customHeight: 445,
+                activePreset: '851:315',
+            };
+
+            // ============ DOM REFS ============
+            const gridContainer = document.getElementById('gridContainer');
+            const mainImageContainer = document.getElementById('mainImageContainer');
+            const mainImage = document.getElementById('mainImage');
+            const mainImageLabel = document.querySelector('.main-image-label');
+            const collagePage = document.getElementById('collagePage');
+            const pageWrapper = document.getElementById('pageWrapper');
+            const layoutTypeSelect = document.getElementById('layoutType');
+            const gridDensitySelect = document.getElementById('gridDensity');
+            const customWidthInput = document.getElementById('customWidth');
+            const customHeightInput = document.getElementById('customHeight');
+            const ratioDisplay = document.getElementById('ratioDisplay');
+            const presetBtns = document.getElementById('presetBtns');
+            const toast = document.getElementById('toast');
+
+            // ============ FUNCTIONS ============
+            function getGridImages() {
+                // Return all images except the main one, in numeric order
+                return allImages.filter(img => img !== state.mainImage);
+            }
+
+            function getImageIndex(filename) {
+                return allImages.indexOf(filename);
+            }
+
+            function renderGrid() {
+                const gridImages = getGridImages();
+                gridContainer.innerHTML = '';
+
+                gridImages.forEach(img => {
+                    const thumb = document.createElement('img');
+                    thumb.src = 'images/' + img;
+                    thumb.alt = img;
+                    thumb.classList.add('thumb');
+                    thumb.title = 'Click to make main: ' + img;
+                    thumb.loading = 'lazy';
+                    thumb.onerror = function() {
+                        this.src =
+                            'data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22120%22 height=%22160%22><rect fill=%22%23dde0e5%22 width=%22120%22 height=%22160%22/><text x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dy=%22.3em%22 fill=%22%23999%22 font-size=%2212%22>' +
+                            img + '</text></svg>';
+                    };
+                    thumb.addEventListener('click', function() {
+                        swapMainImage(img);
+                    });
+                    gridContainer.appendChild(thumb);
+                });
+            }
+
+            function renderMainImage() {
+                mainImage.src = 'images/' + state.mainImage;
+                mainImage.alt = state.mainImage;
+                mainImageLabel.textContent = 'Main: ' + state.mainImage;
+                mainImage.onerror = function() {
+                    this.src =
+                        'data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22300%22 height=%22400%22><rect fill=%22%23c8ccd4%22 width=%22300%22 height=%22400%22/><text x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dy=%22.3em%22 fill=%22%23888%22 font-size=%2220%22>Main</text></svg>';
+                };
+            }
+
+            function swapMainImage(newMain) {
+                if (newMain === state.mainImage) return;
+                const oldMain = state.mainImage;
+                state.mainImage = newMain;
+                renderGrid();
+                renderMainImage();
+                showToast('Main image swapped to ' + newMain + ' (was ' + oldMain + ')');
+            }
+
+            function updateLayoutClass() {
+                // Remove all layout classes
+                const layoutClasses = [
+                    'layout-landscape-right',
+                    'layout-landscape-left',
+                    'layout-portrait-bottom',
+                    'layout-portrait-top',
+                    'layout-center',
+                ];
+                layoutClasses.forEach(cls => collagePage.classList.remove(cls));
+
+                // Add the current layout class
+                collagePage.classList.add('layout-' + state.layoutType);
+
+                // Update grid density class
+                gridContainer.classList.remove('grid-10x6', 'grid-12x5');
+                if (state.layoutType === 'center') {
+                    // Center layout uses its own grid structure
+                    gridContainer.classList.add('grid-10x6'); // default for center
+                } else {
+                    gridContainer.classList.add('grid-' + state.gridDensity);
                 }
             }
 
-            let htmlContent = '';
+            function updatePageSize() {
+                const w = state.customWidth;
+                const h = state.customHeight;
+                collagePage.style.width = w + 'px';
+                collagePage.style.height = h + 'px';
 
-            if (currentLayout === 'left' || currentLayout === 'right') {
-                htmlContent += `
-                    <div class="flex-main-container">
-                        ${generateImageHTML(currentMainImage, true)}
-                    </div>
-                    <div class="flex-grid-container">
-                        ${smallImages.map(id => `<div class="small-image">${generateImageHTML(id)}</div>`).join('')}
-                    </div>
-                `;
-            } 
-            else if (currentLayout === 'top' || currentLayout === 'bottom') {
-                htmlContent += `
-                    <div class="flex-main-container-portrait">
-                        ${generateImageHTML(currentMainImage, true)}
-                    </div>
-                    <div class="flex-grid-container-portrait">
-                        ${smallImages.map(id => `<div class="small-image">${generateImageHTML(id)}</div>`).join('')}
-                    </div>
-                `;
+                // In landscape 2-col: left grid ~72%, right main ~28%
+                // In portrait: grid ~65%, main ~35%
+                // In center: handled by CSS grid
+                if (state.layoutType === 'landscape-right' || state.layoutType === 'landscape-left') {
+                    const gridWidth = Math.round(w * 0.72);
+                    const mainWidth = w - gridWidth - 6; // 6px gap
+                    gridContainer.style.width = gridWidth + 'px';
+                    gridContainer.style.height = h + 'px';
+                    mainImageContainer.style.width = mainWidth + 'px';
+                    mainImageContainer.style.height = h + 'px';
+                } else if (state.layoutType === 'portrait-bottom' || state.layoutType === 'portrait-top') {
+                    const gridHeight = Math.round(h * 0.62);
+                    const mainHeight = h - gridHeight - 6;
+                    gridContainer.style.width = w + 'px';
+                    gridContainer.style.height = gridHeight + 'px';
+                    mainImageContainer.style.width = w + 'px';
+                    mainImageContainer.style.height = mainHeight + 'px';
+                } else if (state.layoutType === 'center') {
+                    gridContainer.style.width = '';
+                    gridContainer.style.height = '';
+                    mainImageContainer.style.width = '';
+                    mainImageContainer.style.height = '';
+                }
+
+                // Update ratio display
+                const ratio = w / h;
+                ratioDisplay.textContent = 'Ratio: ~' + ratio.toFixed(2) + ':1';
             }
-            else if (currentLayout === 'center') {
-                // For center layout, we use CSS grid. Main container sits in the middle via CSS grid-area.
-                htmlContent += `
-                    <div class="main-image-wrapper">
-                        ${generateImageHTML(currentMainImage, true)}
-                    </div>
-                    ${smallImages.map(id => `<div class="small-image">${generateImageHTML(id)}</div>`).join('')}
-                `;
+
+            function showToast(message) {
+                toast.textContent = message;
+                toast.classList.add('show');
+                clearTimeout(toast._timeout);
+                toast._timeout = setTimeout(() => {
+                    toast.classList.remove('show');
+                }, 2200);
             }
 
-            page.innerHTML = htmlContent;
-        }
-
-        // Ratio Handlers
-        window.changePresetRatio = function() {
-            const select = document.getElementById('ratio-select');
-            const customContainer = document.getElementById('custom-scale-container');
-            const wrapper = document.getElementById('main-wrapper');
-            
-            if (select.value === 'custom') {
-                customContainer.style.display = 'block';
-                // Trigger slider value
-                handleCustomScale();
-            } else {
-                customContainer.style.display = 'none';
-                wrapper.style.aspectRatio = select.value;
+            function applyPreset(ratioStr) {
+                const [w, h] = ratioStr.split(':').map(Number);
+                state.customWidth = w;
+                state.customHeight = h;
+                state.activePreset = ratioStr;
+                customWidthInput.value = w;
+                customHeightInput.value = h;
+                updatePageSize();
+                updatePresetButtons();
             }
-        };
 
-        window.handleCustomScale = function() {
-            const slider = document.getElementById('scale-slider');
-            const wrapper = document.getElementById('main-wrapper');
-            const valSpan = document.getElementById('scale-value');
-            
-            const ratio = slider.value;
-            valSpan.innerText = ratio;
-            wrapper.style.aspectRatio = ratio;
-        };
+            function updatePresetButtons() {
+                const buttons = presetBtns.querySelectorAll('.preset-btn');
+                buttons.forEach(btn => {
+                    const ratio = btn.getAttribute('data-ratio');
+                    if (ratio === state.activePreset) {
+                        btn.classList.add('active');
+                    } else {
+                        btn.classList.remove('active');
+                    }
+                });
+            }
 
-        window.resetDefaults = function() {
-            currentMainImage = 9;
-            document.getElementById('ratio-select').value = '820/312';
-            changePresetRatio();
-            changeLayout('left');
-        };
+            // ============ INIT ============
+            function init() {
+                renderGrid();
+                renderMainImage();
+                updateLayoutClass();
+                updatePageSize();
+                updatePresetButtons();
 
-        // Initialize on load
-        document.addEventListener('DOMContentLoaded', () => {
-            changeLayout('left'); // Sets UI button state and calls render
-            changePresetRatio();
-        });
+                // Set initial select values
+                layoutTypeSelect.value = state.layoutType;
+                gridDensitySelect.value = state.gridDensity;
+                customWidthInput.value = state.customWidth;
+                customHeightInput.value = state.customHeight;
+            }
 
+            // ============ EVENT LISTENERS ============
+            layoutTypeSelect.addEventListener('change', function() {
+                state.layoutType = this.value;
+                updateLayoutClass();
+                updatePageSize();
+                renderGrid(); // re-render for center layout structure
+                showToast('Layout: ' + this.options[this.selectedIndex].text);
+            });
+
+            gridDensitySelect.addEventListener('change', function() {
+                state.gridDensity = this.value;
+                updateLayoutClass();
+                updatePageSize();
+                showToast('Grid: ' + this.value);
+            });
+
+            customWidthInput.addEventListener('input', function() {
+                const val = parseInt(this.value);
+                if (val && val >= 200 && val <= 4000) {
+                    state.customWidth = val;
+                    state.activePreset = null;
+                    updatePageSize();
+                    updatePresetButtons();
+                }
+            });
+
+            customHeightInput.addEventListener('input', function() {
+                const val = parseInt(this.value);
+                if (val && val >= 200 && val <= 4000) {
+                    state.customHeight = val;
+                    state.activePreset = null;
+                    updatePageSize();
+                    updatePresetButtons();
+                }
+            });
+
+            presetBtns.addEventListener('click', function(e) {
+                const btn = e.target.closest('.preset-btn');
+                if (!btn) return;
+                const ratioStr = btn.getAttribute('data-ratio');
+                applyPreset(ratioStr);
+                showToast('Preset applied: ' + btn.textContent.trim());
+            });
+
+            // Keyboard shortcut for quick swap
+            document.addEventListener('keydown', function(e) {
+                if (e.ctrlKey && e.key === 's') {
+                    e.preventDefault();
+                    showToast('Use the Export button to download your collage.');
+                }
+            });
+
+            // Handle window resize for responsive scaling
+            function handleResize() {
+                const wrapperWidth = pageWrapper.clientWidth - 32;
+                const pageWidth = state.customWidth;
+                if (pageWidth > wrapperWidth && wrapperWidth > 300) {
+                    const scale = wrapperWidth / pageWidth;
+                    collagePage.style.transform = 'scale(' + scale + ')';
+                    collagePage.style.transformOrigin = 'top center';
+                } else {
+                    collagePage.style.transform = 'scale(1)';
+                    collagePage.style.transformOrigin = 'top center';
+                }
+            }
+
+            window.addEventListener('resize', handleResize);
+            handleResize();
+
+            // ============ START ============
+            init();
+
+            // Log info
+            console.log('%c SGSC Friends Collage %c SSC-26 ',
+                'background:#4f6ef7;color:#fff;padding:4px 8px;border-radius:4px 0 0 4px;font-weight:bold;',
+                'background:#1a1d23;color:#fff;padding:4px 8px;border-radius:0 4px 4px 0;');
+            console.log('Total images: ' + TOTAL_IMAGES + ' | Default main: 09.jpg');
+            console.log('Click any thumbnail to swap the main image.');
+            console.log('Repo: github.com/Muhtasim-Rahman/sgsc-friends-ssc26');
+        })();
     </script>
 </body>
 </html>
