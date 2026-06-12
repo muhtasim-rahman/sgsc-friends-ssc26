@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SGSC (SSC-26) - Banner Generator</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        primary: '#2563eb',
+                        secondary: '#475569',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- ==========================================
+         CSS SECTION (SEPARATED FOR CLEANLINESS)
+         ========================================== -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc;
+        }
+
+        /* * The Main .page Container 
+         * Designed to behave like a fixed aspect ratio canvas 
+         */
+        .page-wrapper {
+            width: 100%;
+            max-width: 1000px;
+            margin: 0 auto;
+            background: #ffffff;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            border-radius: 8px;
+            transition: aspect-ratio 0.3s ease;
+        }
+
+        .page {
+            width: 100%;
+            height: 100%;
+            background-color: #ffffff;
+            /* Container for dynamic layouts */
+        }
+
+        /* Common image styling within collage */
+        .page img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            cursor: pointer;
+            transition: opacity 0.2s ease, transform 0.2s ease;
+        }
+
+        .page img:hover {
+            opacity: 0.9;
+        }
+
+        .small-image img:hover {
+            transform: scale(1.02);
+            z-index: 10;
+            position: relative;
+        }
+
+        /* Layout: Left & Right (Flex) */
+        .layout-left, .layout-right {
+            display: flex;
+        }
+        .layout-right {
+            flex-direction: row-reverse;
+        }
+        
+        .flex-main-container {
+            width: 35%; /* Main image takes 35% */
+            height: 100%;
+        }
+        .flex-grid-container {
+            width: 65%;
+            height: 100%;
+            display: grid;
+            grid-template-columns: repeat(10, 1fr);
+            grid-template-rows: repeat(6, 1fr);
+            gap: 2px;
+            padding: 2px;
+        }
+
+        /* Layout: Top & Bottom (Flex Column) */
+        .layout-top, .layout-bottom {
+            display: flex;
+        }
+        .layout-top {
+            flex-direction: column;
+        }
+        .layout-bottom {
+            flex-direction: column-reverse;
+        }
+
+        .flex-main-container-portrait {
+            width: 100%;
+            height: 40%; /* Main image takes 40% height */
+        }
+        .flex-grid-container-portrait {
+            width: 100%;
+            height: 60%;
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            grid-template-rows: repeat(5, 1fr);
+            gap: 2px;
+            padding: 2px;
+        }
+
+        /* Layout: Center (CSS Grid Auto Dense) */
+        .layout-center {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            grid-template-rows: repeat(7, 1fr);
+            gap: 2px;
+            padding: 2px;
+            grid-auto-flow: dense;
+        }
+
+        .layout-center .main-image-wrapper {
+            grid-column: 4 / 10; /* Spans 6 columns out of 12 */
+            grid-row: 2 / 6;     /* Spans 4 rows out of 7 */
+            z-index: 5;
+        }
+
+        .layout-center .small-image {
+            width: 100%;
+            height: 100%;
+        }
+
+        /* Range Slider Custom Styling */
+        input[type=range] {
+            -webkit-appearance: none;
+            width: 100%;
+            background: transparent;
+        }
+        input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            height: 16px;
+            width: 16px;
+            border-radius: 50%;
+            background: #2563eb;
+            cursor: pointer;
+            margin-top: -6px;
+        }
+        input[type=range]::-webkit-slider-runnable-track {
+            width: 100%;
+            height: 4px;
+            cursor: pointer;
+            background: #cbd5e1;
+            border-radius: 2px;
+        }
+    </style>
+</head>
+<body class="flex flex-col min-h-screen">
+
+    <!-- Navbar -->
+    <nav class="bg-white border-b border-slate-200 sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center gap-3">
+                    <!-- Logo / SGSC Image with fallback -->
+                    <img src="images/sgsc.gif" onerror="this.onerror=null; this.src='https://placehold.co/100x100/2563eb/ffffff?text=SGSC';" alt="SGSC Logo" class="h-10 w-10 rounded-full object-cover border border-slate-300">
+                    <span class="font-bold text-xl text-slate-800 tracking-tight">SGSC SSC-26</span>
+                </div>
+                <div class="flex items-center">
+                    <span class="text-sm font-medium text-slate-500 bg-slate-100 px-3 py-1 rounded-full">Banner Engine</span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="flex-grow w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        
+        <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
+            <!-- Controls Panel -->
+            <div class="lg:col-span-1 space-y-6 bg-white p-6 rounded-xl border border-slate-200 shadow-sm">
+                <div>
+                    <h3 class="text-lg font-semibold text-slate-800 mb-1">Layout Settings</h3>
+                    <p class="text-xs text-slate-500 mb-4">Customize the collage appearance</p>
+                </div>
+
+                <!-- Position Control -->
+                <div class="space-y-2">
+                    <label class="block text-sm font-medium text-slate-700">Main Image Position</label>
+                    <div class="grid grid-cols-2 gap-2">
+                        <button onclick="changeLayout('left')" id="btn-left" class="layout-btn w-full px-3 py-2 text-sm border rounded-md hover:bg-slate-50 transition-colors">Left</button>
+                        <button onclick="changeLayout('right')" id="btn-right" class="layout-btn w-full px-3 py-2 text-sm border rounded-md hover:bg-slate-50 transition-colors">Right</button>
+                        <button onclick="changeLayout('top')" id="btn-top" class="layout-btn w-full px-3 py-2 text-sm border rounded-md hover:bg-slate-50 transition-colors">Top</button>
+                        <button onclick="changeLayout('bottom')" id="btn-bottom" class="layout-btn w-full px-3 py-2 text-sm border rounded-md hover:bg-slate-50 transition-colors">Bottom</button>
+                        <button onclick="changeLayout('center')" id="btn-center" class="layout-btn w-full px-3 py-2 text-sm border rounded-md hover:bg-slate-50 transition-colors col-span-2">Center</button>
+                    </div>
+                </div>
+
+                <!-- Aspect Ratio Preset -->
+                <div class="space-y-2 pt-2 border-t border-slate-100">
+                    <label class="block text-sm font-medium text-slate-700">Aspect Ratio Presets</label>
+                    <select id="ratio-select" onchange="changePresetRatio()" class="w-full border border-slate-300 rounded-md py-2 px-3 text-sm text-slate-700 focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary">
+                        <option value="16/9">Standard Widescreen (16:9)</option>
+                        <option value="820/312">Facebook Banner (820:312)</option>
+                        <option value="4/5">Portrait (4:5)</option>
+                        <option value="custom">Custom Scale</option>
+                    </select>
+                </div>
+
+                <!-- Custom Scale Slider -->
+                <div class="space-y-2 pt-2 border-t border-slate-100" id="custom-scale-container" style="display: none;">
+                    <div class="flex justify-between items-center">
+                        <label class="block text-sm font-medium text-slate-700">Touch Adjust (Ratio)</label>
+                        <span id="scale-value" class="text-xs text-primary font-medium">2.62</span>
+                    </div>
+                    <input type="range" id="scale-slider" min="0.5" max="3.5" step="0.01" value="2.62" oninput="handleCustomScale()">
+                </div>
+                
+                <div class="pt-4 border-t border-slate-100">
+                    <button onclick="resetDefaults()" class="w-full flex items-center justify-center gap-2 px-4 py-2 bg-slate-100 text-slate-700 rounded-md hover:bg-slate-200 transition-colors text-sm font-medium">
+                        <i class="fa-solid fa-rotate-right"></i> Reset Defaults
+                    </button>
+                </div>
+            </div>
+
+            <!-- Canvas/Preview Panel -->
+            <div class="lg:col-span-3 flex flex-col items-center justify-center bg-slate-100 rounded-xl border border-slate-200 p-4 sm:p-8 min-h-[400px]">
+                
+                <!-- The .page Container -->
+                <div class="page-wrapper" id="main-wrapper" style="aspect-ratio: 820/312;">
+                    <div class="page" id="collage-page">
+                        <!-- Images will be generated here by JavaScript -->
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+
+        <!-- Documentation Section -->
+        <div class="mt-16 bg-white rounded-xl border border-slate-200 p-6 sm:p-10 shadow-sm">
+            <h2 class="text-2xl font-bold text-slate-800 mb-6 border-b border-slate-100 pb-4">
+                <i class="fa-solid fa-book-open text-primary mr-2"></i> How to Use
+            </h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                <div class="bg-slate-50 p-5 rounded-lg border border-slate-100">
+                    <div class="w-10 h-10 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center font-bold text-lg mb-3">1</div>
+                    <h4 class="font-semibold text-slate-800 mb-2">Select Layout</h4>
+                    <p class="text-sm text-slate-600">Choose where you want the main image to appear (Left, Right, Top, Bottom, or perfectly in the Center).</p>
+                </div>
+                
+                <div class="bg-slate-50 p-5 rounded-lg border border-slate-100">
+                    <div class="w-10 h-10 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center font-bold text-lg mb-3">2</div>
+                    <h4 class="font-semibold text-slate-800 mb-2">Choose Main Image</h4>
+                    <p class="text-sm text-slate-600">Click on any small image inside the collage. It will instantly swap and become the new main image while keeping the rest serial-wise.</p>
+                </div>
+                
+                <div class="bg-slate-50 p-5 rounded-lg border border-slate-100">
+                    <div class="w-10 h-10 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center font-bold text-lg mb-3">3</div>
+                    <h4 class="font-semibold text-slate-800 mb-2">Adjust & Download</h4>
+                    <p class="text-sm text-slate-600">Use the aspect ratio slider to fix the dimensions. Once perfect, use the download panel below to export your customized banner.</p>
+                </div>
+            </div>
+
+            <div class="flex items-center justify-between bg-blue-50 border border-blue-100 p-4 rounded-lg">
+                <div>
+                    <h4 class="font-medium text-blue-800">Need more technical details?</h4>
+                    <p class="text-sm text-blue-600">Check out the complete setup guide and repository structure.</p>
+                </div>
+                <a href="https://github.com/muhtasim-rahman/sgsc-friends-ssc26#readme" target="_blank" class="px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded shadow hover:bg-blue-700 transition-colors">
+                    <i class="fa-brands fa-github mr-1"></i> Read Docs
+                </a>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Exporter Script (As requested by User) -->
+    <script src="https://muhtasim-rahman.github.io/exporter-pro/export.js"></script>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-slate-200 mt-auto py-8">
+        <div class="max-w-7xl mx-auto px-4 flex flex-col md:flex-row justify-between items-center gap-4">
+            
+            <div class="text-sm text-slate-500">
+                &copy; 2026 SGSC SSC-26 Batch. All rights reserved.
+            </div>
+
+            <!-- Centered Author Badge -->
+            <a href="https://mdturzo.web.app" target="_blank" class="group flex items-center gap-3 bg-slate-50 border border-slate-200 px-4 py-2 rounded-full hover:bg-blue-50 hover:border-blue-200 transition-all cursor-pointer shadow-sm hover:shadow">
+                <img src="images/muhtasim.webp" onerror="this.onerror=null; this.src='https://placehold.co/100x100/2563eb/ffffff?text=MR';" alt="Muhtasim Rahman" class="w-8 h-8 rounded-full object-cover border-2 border-white shadow-sm">
+                <div class="flex flex-col">
+                    <span class="text-xs text-slate-500 font-medium leading-none">Designed & Built by</span>
+                    <span class="text-sm font-bold text-slate-800 group-hover:text-primary transition-colors">Muhtasim Rahman</span>
+                </div>
+            </a>
+
+            <!-- Social Links -->
+            <div class="flex items-center gap-4 text-slate-400">
+                <a href="https://github.com/muhtasim-rahman/sgsc-friends-ssc26" target="_blank" class="hover:text-slate-800 transition-colors" title="Github Repository"><i class="fa-brands fa-github text-xl"></i></a>
+                <a href="#" target="_blank" class="hover:text-blue-700 transition-colors" title="LinkedIn"><i class="fa-brands fa-linkedin text-xl"></i></a>
+                <a href="#" target="_blank" class="hover:text-red-600 transition-colors" title="YouTube"><i class="fa-brands fa-youtube text-xl"></i></a>
+                <a href="#" target="_blank" class="hover:text-blue-600 transition-colors" title="Facebook"><i class="fa-brands fa-facebook text-xl"></i></a>
+            </div>
+
+        </div>
+    </footer>
+
+    <!-- ==========================================
+         JAVASCRIPT SECTION (SEPARATED)
+         ========================================== -->
+    <script>
+        // Core State
+        const TOTAL_IMAGES = 61;
+        let currentMainImage = 9; // Default to 09.jpg
+        let currentLayout = 'left'; // left, right, top, bottom, center
+
+        // Utility: Pad numbers with leading zero (e.g., 9 -> "09")
+        function padNum(num) {
+            return num.toString().padStart(2, '0');
+        }
+
+        // Utility: Generate Image HTML with fallback
+        function generateImageHTML(id, isMain = false) {
+            const formattedId = padNum(id);
+            const src = `images/${formattedId}.jpg`;
+            const fallbackSrc = `https://placehold.co/400x300/e2e8f0/64748b?text=${formattedId}`;
+            
+            // If it's a small image, add click handler to swap it
+            const clickAttr = isMain ? '' : `onclick="swapMainImage(${id})" title="Click to set as main image"`;
+            const classAttr = isMain ? '' : 'class="w-full h-full object-cover"';
+            
+            return `<img src="${src}" onerror="this.onerror=null; this.src='${fallbackSrc}';" alt="Image ${formattedId}" ${clickAttr} ${classAttr}>`;
+        }
+
+        // Action: Swap main image
+        window.swapMainImage = function(newId) {
+            currentMainImage = newId;
+            renderCollage();
+        };
+
+        // Action: Change layout via buttons
+        window.changeLayout = function(layout) {
+            currentLayout = layout;
+            
+            // Update UI buttons
+            document.querySelectorAll('.layout-btn').forEach(btn => {
+                btn.classList.remove('bg-primary', 'text-white', 'border-primary');
+                btn.classList.add('border-slate-300', 'text-slate-700');
+            });
+            const activeBtn = document.getElementById(`btn-${layout}`);
+            activeBtn.classList.remove('border-slate-300', 'text-slate-700');
+            activeBtn.classList.add('bg-primary', 'text-white', 'border-primary');
+
+            renderCollage();
+        };
+
+        // Render the main collage based on state
+        function renderCollage() {
+            const page = document.getElementById('collage-page');
+            
+            // Reset classes
+            page.className = `page layout-${currentLayout}`;
+
+            // Generate small images array (maintaining serial order for the rest)
+            let smallImages = [];
+            for (let i = 1; i <= TOTAL_IMAGES; i++) {
+                if (i !== currentMainImage) {
+                    smallImages.push(i);
+                }
+            }
+
+            let htmlContent = '';
+
+            if (currentLayout === 'left' || currentLayout === 'right') {
+                htmlContent += `
+                    <div class="flex-main-container">
+                        ${generateImageHTML(currentMainImage, true)}
+                    </div>
+                    <div class="flex-grid-container">
+                        ${smallImages.map(id => `<div class="small-image">${generateImageHTML(id)}</div>`).join('')}
+                    </div>
+                `;
+            } 
+            else if (currentLayout === 'top' || currentLayout === 'bottom') {
+                htmlContent += `
+                    <div class="flex-main-container-portrait">
+                        ${generateImageHTML(currentMainImage, true)}
+                    </div>
+                    <div class="flex-grid-container-portrait">
+                        ${smallImages.map(id => `<div class="small-image">${generateImageHTML(id)}</div>`).join('')}
+                    </div>
+                `;
+            }
+            else if (currentLayout === 'center') {
+                // For center layout, we use CSS grid. Main container sits in the middle via CSS grid-area.
+                htmlContent += `
+                    <div class="main-image-wrapper">
+                        ${generateImageHTML(currentMainImage, true)}
+                    </div>
+                    ${smallImages.map(id => `<div class="small-image">${generateImageHTML(id)}</div>`).join('')}
+                `;
+            }
+
+            page.innerHTML = htmlContent;
+        }
+
+        // Ratio Handlers
+        window.changePresetRatio = function() {
+            const select = document.getElementById('ratio-select');
+            const customContainer = document.getElementById('custom-scale-container');
+            const wrapper = document.getElementById('main-wrapper');
+            
+            if (select.value === 'custom') {
+                customContainer.style.display = 'block';
+                // Trigger slider value
+                handleCustomScale();
+            } else {
+                customContainer.style.display = 'none';
+                wrapper.style.aspectRatio = select.value;
+            }
+        };
+
+        window.handleCustomScale = function() {
+            const slider = document.getElementById('scale-slider');
+            const wrapper = document.getElementById('main-wrapper');
+            const valSpan = document.getElementById('scale-value');
+            
+            const ratio = slider.value;
+            valSpan.innerText = ratio;
+            wrapper.style.aspectRatio = ratio;
+        };
+
+        window.resetDefaults = function() {
+            currentMainImage = 9;
+            document.getElementById('ratio-select').value = '820/312';
+            changePresetRatio();
+            changeLayout('left');
+        };
+
+        // Initialize on load
+        document.addEventListener('DOMContentLoaded', () => {
+            changeLayout('left'); // Sets UI button state and calls render
+            changePresetRatio();
+        });
+
+    </script>
+</body>
+</html>
