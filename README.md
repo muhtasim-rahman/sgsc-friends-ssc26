@@ -1,103 +1,130 @@
-# SGSC Friends Collage – SSC-26
+# SGSC Banner Studio — SSC-26
 
-> A lightweight, client‑side photo collage generator for the SSC‑26 batch of SGSC.  
-> Build custom Facebook‑style banners using 61 student photos with one click.
+A browser-based photo collage banner generator built for the SGSC SSC Batch 2026 (All Boys). Each friend can select a featured photo, choose a layout, and export a high-quality banner — all without any backend, app install, or account.
 
 ---
 
 ## Features
 
-- **61‑image collage** – 1 main featured photo + 60 thumbnails in a responsive grid.
-- **Click‑to‑swap** – Tap any thumbnail to promote it as the main image; the previous main returns to its numeric slot (`01.jpg`–`61.jpg`).
-- **5 layout modes** – Landscape (main left/right), portrait (main top/bottom), and centre‑focus.
-- **Grid density** – Choose between `10×6` or `12×5` for the thumbnail area.
-- **Preset ratios** – Facebook Cover (851×315), YouTube Banner (2560×1440), Twitter Header (1500×500), and more.
-- **Custom dimensions** – Enter any width/height in pixels.
-- **Image export** – Download the final collage as a high‑quality PNG via [Exporter Pro](https://muhtasim-rahman.github.io/exporter-pro/).
-- **Fully offline** – No backend, no database, all static files.
+- **61-image collage** — places 60 friends around one featured main image
+- **3 layout modes** — Two-Column, Two-Row, and Center (picture frame)
+- **Drag-to-resize** — a live divider bar lets you adjust the split between the grid and the main image
+- **One-click photo swap** — click any thumbnail to make it the featured image; the old one returns to its correct serial slot automatically
+- **Custom canvas** — adjust page dimensions, presets (Facebook Banner, YouTube Banner, OG Image, and more), image gap, margin, grid arrangement (10×6, 12×5, 6×10, etc.), and zoom
+- **High-res export** — PNG / JPG / WebP at 0.5x up to 8x scale with a live progress bar and console log
+- **Signature overlay** — "Muhtasim Rahman" in a signature font on the main image area
+- **Secure** — right-click, F12, and browser devtools keyboard shortcuts are blocked to discourage direct asset download
+- **Responsive** — works on desktop and mobile; sidebar collapses into a slide-in drawer on small screens
+
+---
+
+## Project Structure
+
+```
+sgsc-friends-ssc26/
+├── index.html          Main page
+├── style.css           All styles (Inter + Dancing Script)
+├── script.js           All interactivity and export logic
+├── images/
+│   ├── 01.jpg          Friend photos (01 – 61)
+│   ├── ...
+│   ├── 61.jpg
+│   ├── sgsc.gif        School logo (navbar)
+│   └── muhtasim.webp   Author avatar (footer badge)
+└── README.md
+```
+
+---
+
+## How to Use
+
+### Setup
+
+1. Clone or download this repository.
+2. Place all 61 friend photos inside `images/` named `01.jpg` through `61.jpg`.
+3. Add the school logo as `images/sgsc.gif` (or `images/sgsc.png`).
+4. Serve the folder from a local server — for example:
+
+```bash
+# Python 3
+python -m http.server 8080
+
+# Node.js (npx)
+npx serve .
+```
+
+Then open `http://localhost:8080` in your browser.
+
+> Running directly from the file system (`file://`) may block image rendering in exports due to browser security policies. A local server or GitHub Pages is recommended.
+
+### Workflow
+
+| Step | Action |
+|------|--------|
+| 1 | Choose a page preset or enter custom dimensions |
+| 2 | Select a layout: 2-Column, 2-Row, or Center |
+| 3 | Click any thumbnail to make it the featured image |
+| 4 | Drag the divider bar to adjust the size ratio |
+| 5 | Fine-tune gap, margin, grid columns, and zoom from the sidebar |
+| 6 | Pick a format and scale in the Export panel |
+| 7 | Click **Download Banner** — file saves as `sgsc-friends-ssc26-by-turzo(WxH).png` |
+
+### Page Presets
+
+| Preset | Dimensions |
+|--------|-----------|
+| FB Banner | 1640 × 624 px |
+| FB Cover | 820 × 312 px |
+| YT Banner | 2560 × 1440 px |
+| OG Image | 1200 × 630 px |
+| Square | 1080 × 1080 px |
+| Portrait | 1080 × 1350 px |
+
+### Export Scales
+
+| Scale | Use case |
+|-------|----------|
+| 0.5x | Preview / draft |
+| 1x | Standard web |
+| 2x | Retina / high-DPI |
+| 3x | Large print |
+| 4x – 8x | Very large print (may be slow) |
 
 ---
 
 ## Tech Stack
 
-- HTML5, CSS3 (custom properties, grid, flex), vanilla JavaScript
-- [Font Awesome 6](https://fontawesome.com/) – icons
-- [Google Fonts](https://fonts.google.com/) – Inter & Outfit
-- [Exporter Pro](https://muhtasim-rahman.github.io/exporter-pro/export.js) – image download
+- Vanilla HTML, CSS, and JavaScript — no frameworks, no build step
+- [Inter](https://fonts.google.com/specimen/Inter) — UI font
+- [Dancing Script](https://fonts.google.com/specimen/Dancing+Script) — signature overlay font
+- [Font Awesome 6](https://fontawesome.com/) — icons
+- [html2canvas 1.4](https://html2canvas.hertzen.com/) — client-side canvas export
 
 ---
 
-## File Structure
+## Deployment
 
-+++
-sgsc-friends-ssc26/
-├── index.html        # main application (CSS & JS embedded)
-├── README.md
-└── images/
-    ├── sgsc.jpg      # navbar logo (replaceable)
-    ├── 01.jpg
-    ├── 02.jpg
-    ├── ...
-    └── 61.jpg
-+++
+This is a static site. Push to GitHub and enable GitHub Pages under **Settings → Pages → Deploy from branch**.
 
-*All photos must follow the naming `01.jpg`–`61.jpg`. Aspect ratio 4:3 is recommended to minimise cropping.*
-
----
-
-## Getting Started
-
-1. **Clone the repository**
-   +++
-   git clone https://github.com/Muhtasim-Rahman/sgsc-friends-ssc26.git
-   cd sgsc-friends-ssc26
-   +++
-
-2. **Add your photos** – Place 61 student photos inside the `images/` folder using the correct filenames.
-
-3. **Open** `index.html` in any modern browser. No server required.
-
-4. **Customise**  
-   - Use the control panel to change layout, grid density, and aspect ratio.  
-   - Click any thumbnail to set it as the main image.  
-   - Use the **Export** button (automatically added) to save the collage.
-
----
-
-## Workflow Summary
-
-| Step | Action |
-|------|--------|
-| 1 | Select a **Layout** (landscape, portrait, centre) |
-| 2 | Pick a **Grid Density** (`10×6` or `12×5`) |
-| 3 | Choose an **Aspect Ratio** (preset or custom) |
-| 4 | **Click a thumbnail** to swap the main photo |
-| 5 | Press **Export** to download the banner |
-
-A detailed visual guide is embedded on the page itself.
-
----
-
-## Customisation
-
-- **Change the default main image** – Edit the `state.mainImage` variable inside the `<script>` tag in `index.html`.
-- **Modify grid proportions** – In the `updatePageSize()` function, adjust the width/height ratios (currently 72/28% landscape, 62/38% portrait).
-- **Branding** – Replace `images/sgsc.jpg` with your own logo. Footer links can be updated directly in the HTML.
+```
+Repository: sgsc-friends-ssc26
+GitHub Pages URL: https://mdturzo999.github.io/sgsc-friends-ssc26/
+```
 
 ---
 
 ## Author
 
-**Muhtasim Rahman**  
-- Portfolio: [mdturzo.web.app](https://mdturzo.web.app)  
-- GitHub: [@Muhtasim-Rahman](https://github.com/Muhtasim-Rahman)  
-- LinkedIn: [muhtasim-rahman](https://linkedin.com/in/muhtasim-rahman)  
-- YouTube: [@muhtasimrahman](https://youtube.com/@muhtasimrahman)  
-- Facebook: [muhtasim.rahman.turzo](https://facebook.com/muhtasim.rahman.turzo)
+**Muhtasim Rahman**
+Portfolio: [mdturzo.web.app](https://mdturzo.web.app)
+GitHub: [@mdturzo999](https://github.com/mdturzo999)
+LinkedIn: [mdturzo999](https://linkedin.com/in/mdturzo999)
+YouTube: [@mdturzo999](https://youtube.com/@mdturzo999)
+Facebook: [mdturzo999](https://facebook.com/mdturzo999)
 
 ---
 
 ## License
 
-This project is open‑source under the [MIT License](LICENSE).  
-Feel free to use, modify, and share it.
+This project is for personal, non-commercial use by SGSC SSC-26 batch members.
+&copy; 2025 Muhtasim Rahman. All rights reserved.

@@ -1,1080 +1,376 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SGSC Friends Collage - SSC-26</title>
-
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-
-    <!-- Font Awesome 6 -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-
-    <style>
-        :root {
-            --bg: #f8f9fb;
-            --surface: #ffffff;
-            --surface-alt: #f1f3f6;
-            --border: #e2e5ea;
-            --border-light: #eef0f3;
-            --text: #1a1d23;
-            --text-secondary: #5f6368;
-            --text-muted: #8b9098;
-            --accent: #4f6ef7;
-            --accent-hover: #3b54d4;
-            --accent-light: #eef1fd;
-            --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.04);
-            --shadow: 0 2px 8px rgba(0, 0, 0, 0.06), 0 1px 3px rgba(0, 0, 0, 0.04);
-            --shadow-lg: 0 8px 30px rgba(0, 0, 0, 0.08), 0 2px 8px rgba(0, 0, 0, 0.04);
-            --radius-sm: 8px;
-            --radius: 12px;
-            --radius-lg: 16px;
-            --radius-xl: 20px;
-            --transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-            --font: 'Inter', system-ui, -apple-system, sans-serif;
-            --font-display: 'Outfit', 'Inter', system-ui, sans-serif;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: var(--font);
-            background: var(--bg);
-            color: var(--text);
-            line-height: 1.6;
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
-            min-height: 100vh;
-        }
-
-        /* Navbar */
-        .navbar {
-            background: var(--surface);
-            border-bottom: 1px solid var(--border);
-            padding: 0 24px;
-            height: 60px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            box-shadow: var(--shadow-sm);
-            gap: 16px;
-        }
-        .navbar-brand {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            text-decoration: none;
-            color: var(--text);
-            font-weight: 700;
-            font-size: 1.1rem;
-            font-family: var(--font-display);
-            letter-spacing: -0.01em;
-        }
-        .navbar-brand img {
-            height: 38px;
-            width: 38px;
-            border-radius: var(--radius-sm);
-            object-fit: cover;
-            border: 2px solid var(--border-light);
-        }
-        .navbar-brand span {
-            background: linear-gradient(135deg, #4f6ef7, #7b5cff);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-        .navbar-actions {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        .btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 7px;
-            padding: 9px 16px;
-            border-radius: var(--radius-sm);
-            font-size: 0.875rem;
-            font-weight: 500;
-            cursor: pointer;
-            border: 1px solid transparent;
-            transition: var(--transition);
-            font-family: var(--font);
-            white-space: nowrap;
-            text-decoration: none;
-            letter-spacing: 0.01em;
-        }
-        .btn-primary {
-            background: var(--accent);
-            color: #fff;
-            border-color: var(--accent);
-        }
-        .btn-primary:hover {
-            background: var(--accent-hover);
-            border-color: var(--accent-hover);
-        }
-        .btn-outline {
-            background: var(--surface);
-            color: var(--text);
-            border-color: var(--border);
-        }
-        .btn-outline:hover {
-            background: var(--surface-alt);
-            border-color: #cdd1d8;
-        }
-        .btn-sm {
-            padding: 6px 12px;
-            font-size: 0.8rem;
-            border-radius: 6px;
-        }
-        .btn-icon {
-            width: 36px;
-            height: 36px;
-            padding: 0;
-            justify-content: center;
-            border-radius: var(--radius-sm);
-        }
-
-        /* Main Layout */
-        .main-container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 24px 20px 40px;
-        }
-
-        /* Controls Panel */
-        .controls-panel {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: var(--radius-lg);
-            padding: 20px 24px;
-            margin-bottom: 24px;
-            box-shadow: var(--shadow);
-            display: flex;
-            flex-wrap: wrap;
-            gap: 16px 24px;
-            align-items: flex-end;
-        }
-        .control-group {
-            display: flex;
-            flex-direction: column;
-            gap: 6px;
-        }
-        .control-group label {
-            font-size: 0.75rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.04em;
-            color: var(--text-muted);
-        }
-        .control-group select,
-        .control-group input {
-            padding: 9px 12px;
-            border: 1px solid var(--border);
-            border-radius: var(--radius-sm);
-            font-size: 0.875rem;
-            font-family: var(--font);
-            background: var(--surface);
-            color: var(--text);
-            transition: var(--transition);
-            min-width: 140px;
-            cursor: pointer;
-        }
-        .control-group select:hover,
-        .control-group input:hover {
-            border-color: #c5c9d1;
-        }
-        .control-group select:focus,
-        .control-group input:focus {
-            outline: none;
-            border-color: var(--accent);
-            box-shadow: 0 0 0 3px var(--accent-light);
-        }
-        .control-group input[type="number"] {
-            width: 80px;
-            min-width: 70px;
-            text-align: center;
-        }
-        .preset-btns {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 6px;
-        }
-        .preset-btn {
-            padding: 7px 13px;
-            border-radius: 20px;
-            font-size: 0.78rem;
-            font-weight: 500;
-            cursor: pointer;
-            border: 1px solid var(--border);
-            background: var(--surface);
-            color: var(--text-secondary);
-            transition: var(--transition);
-            font-family: var(--font);
-        }
-        .preset-btn:hover {
-            border-color: var(--accent);
-            color: var(--accent);
-            background: var(--accent-light);
-        }
-        .preset-btn.active {
-            background: var(--accent);
-            color: #fff;
-            border-color: var(--accent);
-        }
-        .ratio-display {
-            font-size: 0.8rem;
-            color: var(--text-secondary);
-            font-weight: 500;
-            padding: 4px 10px;
-            background: var(--surface-alt);
-            border-radius: 20px;
-            display: inline-block;
-        }
-
-        /* Page / Collage Container */
-        .page-wrapper {
-            background: var(--surface);
-            border: 2px solid var(--border);
-            border-radius: var(--radius-lg);
-            padding: 16px;
-            box-shadow: var(--shadow-lg);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            overflow: auto;
-            min-height: 200px;
-            position: relative;
-        }
-        .page {
-            display: flex;
-            gap: 6px;
-            position: relative;
-            background: #e8eaef;
-            border-radius: 4px;
-            overflow: hidden;
-            flex-shrink: 0;
-            transition: all 0.3s ease;
-            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.07);
-        }
-        /* Landscape 2-col layout */
-        .page.layout-landscape-right,
-        .page.layout-landscape-left {
-            flex-direction: row;
-        }
-        .page.layout-landscape-right .grid-container {
-            order: 1;
-        }
-        .page.layout-landscape-right .main-image-container {
-            order: 2;
-        }
-        .page.layout-landscape-left .grid-container {
-            order: 2;
-        }
-        .page.layout-landscape-left .main-image-container {
-            order: 1;
-        }
-        /* Portrait stacked */
-        .page.layout-portrait-top,
-        .page.layout-portrait-bottom {
-            flex-direction: column;
-        }
-        .page.layout-portrait-bottom .grid-container {
-            order: 1;
-        }
-        .page.layout-portrait-bottom .main-image-container {
-            order: 2;
-        }
-        .page.layout-portrait-top .grid-container {
-            order: 2;
-        }
-        .page.layout-portrait-top .main-image-container {
-            order: 1;
-        }
-        /* Center layout */
-        .page.layout-center {
-            display: grid;
-            grid-template-columns: repeat(10, 1fr);
-            grid-template-rows: repeat(7, 1fr);
-            gap: 3px;
-        }
-        .page.layout-center .grid-container {
-            display: contents;
-        }
-        .page.layout-center .grid-container .thumb {
-            aspect-ratio: 3 / 4;
-            object-fit: cover;
-            width: 100%;
-            height: 100%;
-            cursor: pointer;
-            border-radius: 1px;
-            transition: var(--transition);
-            display: block;
-        }
-        .page.layout-center .grid-container .thumb:hover {
-            outline: 2px solid var(--accent);
-            outline-offset: 1px;
-            z-index: 2;
-            transform: scale(1.04);
-            box-shadow: var(--shadow-lg);
-            border-radius: 2px;
-        }
-        .page.layout-center .main-image-container {
-            grid-column: 3 / 9;
-            grid-row: 2 / 7;
-            z-index: 3;
-            border-radius: 3px;
-            overflow: hidden;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
-            border: 3px solid #fff;
-        }
-        .page.layout-center .main-image-container img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            display: block;
-        }
-
-        /* Grid container (60 images) */
-        .grid-container {
-            display: grid;
-            gap: 2px;
-            flex-shrink: 0;
-        }
-        .grid-container.grid-10x6 {
-            grid-template-columns: repeat(10, 1fr);
-            grid-template-rows: repeat(6, 1fr);
-        }
-        .grid-container.grid-12x5 {
-            grid-template-columns: repeat(12, 1fr);
-            grid-template-rows: repeat(5, 1fr);
-        }
-        .grid-container .thumb {
-            aspect-ratio: 3 / 4;
-            object-fit: cover;
-            width: 100%;
-            height: 100%;
-            cursor: pointer;
-            border-radius: 1px;
-            transition: var(--transition);
-            display: block;
-            background: #d5d7dc;
-        }
-        .grid-container .thumb:hover {
-            outline: 2px solid var(--accent);
-            outline-offset: 1px;
-            z-index: 2;
-            transform: scale(1.06);
-            box-shadow: var(--shadow-lg);
-            border-radius: 2px;
-            position: relative;
-        }
-        .grid-container .thumb.active-thumb {
-            outline: 2px solid #ff9800;
-            outline-offset: -1px;
-            z-index: 1;
-        }
-
-        /* Main image container */
-        .main-image-container {
-            flex-shrink: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
-            border-radius: 2px;
-            position: relative;
-            background: #d0d3d9;
-        }
-        .main-image-container img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            display: block;
-        }
-        .main-image-label {
-            position: absolute;
-            bottom: 8px;
-            right: 10px;
-            background: rgba(0, 0, 0, 0.65);
-            color: #fff;
-            font-size: 0.7rem;
-            padding: 3px 9px;
-            border-radius: 12px;
-            pointer-events: none;
-            font-weight: 500;
-            letter-spacing: 0.03em;
-        }
-
-        /* How to Use Section */
-        .how-to-use {
-            margin-top: 40px;
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: var(--radius-lg);
-            padding: 32px 28px;
-            box-shadow: var(--shadow);
-        }
-        .how-to-use h2 {
-            font-family: var(--font-display);
-            font-size: 1.5rem;
-            font-weight: 700;
-            margin-bottom: 6px;
-            letter-spacing: -0.02em;
-        }
-        .how-to-use .subtitle {
-            color: var(--text-secondary);
-            font-size: 0.9rem;
-            margin-bottom: 24px;
-        }
-        .steps-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-            gap: 20px;
-        }
-        .step-card {
-            background: var(--surface-alt);
-            border-radius: var(--radius);
-            padding: 20px 18px;
-            border: 1px solid var(--border-light);
-            transition: var(--transition);
-            position: relative;
-        }
-        .step-card:hover {
-            box-shadow: var(--shadow);
-            border-color: #d5d9df;
-        }
-        .step-number {
-            width: 32px;
-            height: 32px;
-            background: var(--accent);
-            color: #fff;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 700;
-            font-size: 0.85rem;
-            margin-bottom: 12px;
-        }
-        .step-card h4 {
-            font-weight: 600;
-            margin-bottom: 6px;
-            font-size: 0.95rem;
-            letter-spacing: -0.01em;
-        }
-        .step-card p {
-            font-size: 0.82rem;
-            color: var(--text-secondary);
-            line-height: 1.5;
-        }
-        .step-card code {
-            background: #e4e7ec;
-            padding: 2px 7px;
-            border-radius: 4px;
-            font-size: 0.78rem;
-            font-family: 'SF Mono', 'Fira Code', monospace;
-        }
-        .github-guide-link {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            margin-top: 20px;
-            padding: 10px 18px;
-            background: #24292e;
-            color: #fff;
-            border-radius: var(--radius-sm);
-            text-decoration: none;
-            font-weight: 500;
-            font-size: 0.88rem;
-            transition: var(--transition);
-        }
-        .github-guide-link:hover {
-            background: #1b1f23;
-            box-shadow: var(--shadow);
-        }
-        .github-guide-link i {
-            font-size: 1.1rem;
-        }
-
-        /* Footer */
-        .site-footer {
-            margin-top: 48px;
-            padding: 28px 20px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            border-top: 1px solid var(--border);
-            background: var(--surface);
-        }
-        .footer-badge {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-            background: var(--surface-alt);
-            padding: 12px 20px 12px 12px;
-            border-radius: 40px;
-            border: 1px solid var(--border-light);
-            box-shadow: var(--shadow-sm);
-            transition: var(--transition);
-            text-decoration: none;
-            color: var(--text);
-        }
-        .footer-badge:hover {
-            box-shadow: var(--shadow);
-            border-color: #d0d4db;
-        }
-        .footer-badge-avatar {
-            width: 44px;
-            height: 44px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 2px solid #fff;
-            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-            flex-shrink: 0;
-        }
-        .footer-badge-info {
-            display: flex;
-            flex-direction: column;
-            gap: 1px;
-        }
-        .footer-badge-info .name {
-            font-weight: 600;
-            font-size: 0.9rem;
-            letter-spacing: -0.01em;
-            color: var(--text);
-        }
-        .footer-badge-info .link-hint {
-            font-size: 0.72rem;
-            color: var(--text-muted);
-        }
-        .footer-socials {
-            display: flex;
-            gap: 8px;
-            margin-left: 8px;
-            align-items: center;
-        }
-        .footer-socials a {
-            width: 34px;
-            height: 34px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--text-secondary);
-            background: var(--surface);
-            border: 1px solid var(--border-light);
-            transition: var(--transition);
-            text-decoration: none;
-            font-size: 0.85rem;
-        }
-        .footer-socials a:hover {
-            color: var(--accent);
-            border-color: var(--accent);
-            background: var(--accent-light);
-            box-shadow: var(--shadow-sm);
-        }
-
-        /* Toast */
-        .toast {
-            position: fixed;
-            bottom: 30px;
-            left: 50%;
-            transform: translateX(-50%) translateY(100px);
-            background: #1a1d23;
-            color: #fff;
-            padding: 12px 22px;
-            border-radius: 28px;
-            font-size: 0.85rem;
-            font-weight: 500;
-            z-index: 999;
-            pointer-events: none;
-            opacity: 0;
-            transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: 0 8px 28px rgba(0, 0, 0, 0.25);
-        }
-        .toast.show {
-            opacity: 1;
-            transform: translateX(-50%) translateY(0);
-        }
-
-        /* Responsive */
-        @media (max-width: 768px) {
-            .controls-panel {
-                flex-direction: column;
-                gap: 12px;
-                padding: 16px;
-            }
-            .control-group select,
-            .control-group input {
-                width: 100%;
-                min-width: auto;
-            }
-            .page-wrapper {
-                padding: 8px;
-            }
-            .page {
-                gap: 3px;
-            }
-            .grid-container {
-                gap: 1px;
-            }
-            .how-to-use {
-                padding: 20px 16px;
-            }
-            .steps-grid {
-                grid-template-columns: 1fr;
-            }
-            .navbar {
-                padding: 0 12px;
-            }
-            .navbar-brand {
-                font-size: 0.9rem;
-                gap: 8px;
-            }
-            .navbar-brand img {
-                height: 30px;
-                width: 30px;
-            }
-            .footer-badge {
-                flex-wrap: wrap;
-                justify-content: center;
-                gap: 10px;
-                padding: 14px 16px;
-            }
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SGSC Banner Studio — SSC-26</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Dancing+Script:wght@600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <!-- Navbar -->
-    <nav class="navbar">
-        <a href="#" class="navbar-brand">
-            <img src="images/sgsc.jpg" alt="SGSC Logo" onerror="this.style.display='none'; this.nextElementSibling.style.display='inline';">
-            <span>SGSC Friends Collage</span>
-            <span style="display:none; font-size:0.85rem; color:var(--text-secondary);">SSC-26 Batch</span>
-        </a>
-        <div class="navbar-actions">
-            <span style="font-size:0.8rem;color:var(--text-muted);font-weight:500;">SSC-26</span>
+  <!-- ═══════════════════ NAVBAR ═══════════════════ -->
+  <nav class="navbar" id="navbar">
+    <div class="nav-inner">
+      <div class="nav-brand">
+        <button class="sidebar-toggle-btn" id="sidebarToggle" title="Toggle controls">
+          <i class="fa fa-bars"></i>
+        </button>
+        <img src="images/sgsc.gif" alt="SGSC" class="school-logo"
+             onerror="this.onerror=null; this.src='images/sgsc.png';">
+        <div class="brand-text">
+          <span class="brand-title">SGSC Banner Studio</span>
+          <span class="brand-sub">SSC Batch 2026 — All Boys</span>
         </div>
-    </nav>
+      </div>
+      <div class="nav-right">
+        <span class="batch-pill">SSC-26</span>
+      </div>
+    </div>
+  </nav>
 
-    <!-- Main Container -->
-    <div class="main-container">
+  <!-- Mobile overlay for sidebar -->
+  <div class="sidebar-overlay" id="sidebarOverlay"></div>
 
-        <!-- Controls Panel -->
-        <div class="controls-panel" id="controlsPanel">
-            <div class="control-group">
-                <label>Layout Type</label>
-                <select id="layoutType">
-                    <option value="landscape-right">Landscape - Main Right</option>
-                    <option value="landscape-left">Landscape - Main Left</option>
-                    <option value="portrait-bottom">Portrait - Main Bottom</option>
-                    <option value="portrait-top">Portrait - Main Top</option>
-                    <option value="center">Center Focus</option>
-                </select>
-            </div>
-            <div class="control-group">
-                <label>Grid Density</label>
-                <select id="gridDensity">
-                    <option value="10x6">10 x 6 (60 images)</option>
-                    <option value="12x5">12 x 5 (60 images)</option>
-                </select>
-            </div>
-            <div class="control-group">
-                <label>Aspect Ratio Preset</label>
-                <div class="preset-btns" id="presetBtns">
-                    <button class="preset-btn active" data-ratio="851:315">FB Cover</button>
-                    <button class="preset-btn" data-ratio="1640:856">FB Group</button>
-                    <button class="preset-btn" data-ratio="2560:1440">YouTube</button>
-                    <button class="preset-btn" data-ratio="1500:500">Twitter</button>
-                    <button class="preset-btn" data-ratio="1080:1080">Square</button>
-                </div>
-            </div>
-            <div class="control-group">
-                <label>Custom Width</label>
-                <input type="number" id="customWidth" value="1200" min="400" max="4000" step="50">
-            </div>
-            <div class="control-group">
-                <label>Custom Height</label>
-                <input type="number" id="customHeight" value="445" min="200" max="4000" step="50">
-            </div>
-            <div class="control-group">
-                <label>&nbsp;</label>
-                <span class="ratio-display" id="ratioDisplay">Ratio: ~2.70:1</span>
-            </div>
+  <!-- ═══════════════════ APP CONTAINER ═══════════════════ -->
+  <div class="app-container" id="appContainer">
+
+    <!-- ─── SIDEBAR / CONTROLS ─── -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-inner">
+
+        <!-- Presets -->
+        <div class="ctrl-group">
+          <div class="ctrl-label"><i class="fa fa-bookmark"></i> Page Preset</div>
+          <div class="preset-grid" id="presetGrid">
+            <button class="preset-btn active" data-w="1640" data-h="624">FB Banner</button>
+            <button class="preset-btn" data-w="820" data-h="312">FB Cover</button>
+            <button class="preset-btn" data-w="2560" data-h="1440">YT Banner</button>
+            <button class="preset-btn" data-w="1200" data-h="630">OG Image</button>
+            <button class="preset-btn" data-w="1080" data-h="1080">Square</button>
+            <button class="preset-btn" data-w="1080" data-h="1350">Portrait</button>
+          </div>
         </div>
 
-        <!-- Collage Page -->
-        <div class="page-wrapper" id="pageWrapper">
-            <div class="page banner layout-landscape-right" id="collagePage">
-                <!-- Grid of 60 images -->
-                <div class="grid-container grid-10x6" id="gridContainer"></div>
-                <!-- Main image -->
-                <div class="main-image-container" id="mainImageContainer">
-                    <img src="images/09.jpg" alt="Main Image" id="mainImage" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22300%22 height=%22400%22><rect fill=%22%23c8ccd4%22 width=%22300%22 height=%22400%22/><text x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dy=%22.3em%22 fill=%22%23888%22 font-size=%2220%22>Image</text></svg>'">
-                    <span class="main-image-label">Main: 09.jpg</span>
-                </div>
+        <!-- Dimensions -->
+        <div class="ctrl-group">
+          <div class="ctrl-label"><i class="fa fa-ruler-combined"></i> Dimensions (px)</div>
+          <div class="dim-row">
+            <div class="dim-field">
+              <label class="dim-label">W</label>
+              <input type="number" id="inputWidth" value="1640" min="200" max="6000">
             </div>
+            <button class="lock-btn" id="lockAspectBtn" title="Lock aspect ratio">
+              <i class="fa fa-lock-open" id="lockIcon"></i>
+            </button>
+            <div class="dim-field">
+              <label class="dim-label">H</label>
+              <input type="number" id="inputHeight" value="624" min="100" max="6000">
+            </div>
+          </div>
         </div>
 
-        <!-- How to Use Section -->
-        <div class="how-to-use" id="howToUse">
-            <h2>How to Use This Collage Maker</h2>
-            <p class="subtitle">Create your custom SGSC SSC-26 batch banner in a few simple steps.</p>
-            <div class="steps-grid">
-                <div class="step-card">
-                    <div class="step-number">1</div>
-                    <h4>Choose Your Layout</h4>
-                    <p>Select from Landscape, Portrait, or Center Focus layouts. Pick where the main image appears: right, left, top, bottom, or center.</p>
-                </div>
-                <div class="step-card">
-                    <div class="step-number">2</div>
-                    <h4>Pick Grid Density</h4>
-                    <p>Choose <code>10x6</code> or <code>12x5</code> for the 60-image thumbnail grid. Both display exactly 60 images with different visual balance.</p>
-                </div>
-                <div class="step-card">
-                    <div class="step-number">3</div>
-                    <h4>Set Aspect Ratio</h4>
-                    <p>Use preset ratios like Facebook Cover, YouTube Banner, or set custom width and height values for your desired output dimensions.</p>
-                </div>
-                <div class="step-card">
-                    <div class="step-number">4</div>
-                    <h4>Select Main Image</h4>
-                    <p>Click any thumbnail in the 60-image grid to promote it to the main featured spot. The previous main image returns to its numeric position automatically.</p>
-                </div>
-                <div class="step-card">
-                    <div class="step-number">5</div>
-                    <h4>Download Your Banner</h4>
-                    <p>Use the Export button (added automatically below) to download the collage as a high-quality image. Perfect for Facebook banners and group covers.</p>
-                </div>
-                <div class="step-card">
-                    <div class="step-number">6</div>
-                    <h4>Share With Friends</h4>
-                    <p>All 61 images (01.jpg to 61.jpg) from <code>images/</code> folder are used. Each friend can pick their own main image and download their version.</p>
-                </div>
-            </div>
-            <a href="https://github.com/Muhtasim-Rahman/sgsc-friends-ssc26/blob/main/README.md" target="_blank" rel="noopener" class="github-guide-link">
-                <i class="fa-brands fa-github"></i> View Full Guide on GitHub README
-            </a>
+        <!-- Layout -->
+        <div class="ctrl-group">
+          <div class="ctrl-label"><i class="fa fa-table-cells-large"></i> Layout</div>
+          <div class="seg-ctrl" id="layoutBtns">
+            <button class="seg-btn active" data-layout="two-col">
+              <i class="fa fa-columns"></i> 2-Column
+            </button>
+            <button class="seg-btn" data-layout="two-row">
+              <i class="fa fa-grip-lines"></i> 2-Row
+            </button>
+            <button class="seg-btn" data-layout="center">
+              <i class="fa fa-expand"></i> Center
+            </button>
+          </div>
         </div>
 
+        <!-- Main Image Position (contextual) -->
+        <div class="ctrl-group" id="posCtrlGroup">
+          <div class="ctrl-label"><i class="fa fa-arrows-left-right"></i> Main Image Side</div>
+          <div class="seg-ctrl" id="positionBtns"></div>
+        </div>
+
+        <!-- Grid Columns -->
+        <div class="ctrl-group">
+          <div class="ctrl-label"><i class="fa fa-grip"></i> Grid Layout</div>
+          <div class="grid-opts" id="gridColBtns">
+            <button class="grid-opt active" data-cols="10">10×6</button>
+            <button class="grid-opt" data-cols="12">12×5</button>
+            <button class="grid-opt" data-cols="6">6×10</button>
+            <button class="grid-opt" data-cols="5">5×12</button>
+            <button class="grid-opt" data-cols="15">15×4</button>
+            <button class="grid-opt" data-cols="4">4×15</button>
+          </div>
+        </div>
+
+        <!-- Center layout strip controls (shown only in center mode) -->
+        <div class="ctrl-group center-only" id="centerCtrl" style="display:none">
+          <div class="ctrl-label"><i class="fa fa-border-outer"></i> Center Strip Sizes</div>
+          <div class="ctrl-subrow">
+            <span class="sublabel">Top / Bottom</span>
+            <span class="ctrl-val" id="centerHVal">90px</span>
+          </div>
+          <input type="range" class="ctrl-slider" id="centerHSlider" min="40" max="280" value="90" step="4">
+          <div class="ctrl-subrow" style="margin-top:8px">
+            <span class="sublabel">Left / Right</span>
+            <span class="ctrl-val" id="centerVVal">90px</span>
+          </div>
+          <input type="range" class="ctrl-slider" id="centerVSlider" min="40" max="280" value="90" step="4">
+        </div>
+
+        <!-- Image Gap -->
+        <div class="ctrl-group">
+          <div class="ctrl-label">
+            <i class="fa fa-border-none"></i> Image Gap
+            <span class="ctrl-val" id="gapVal">4px</span>
+          </div>
+          <input type="range" class="ctrl-slider" id="gapSlider" min="0" max="20" value="4" step="1">
+        </div>
+
+        <!-- Column / Row Gap -->
+        <div class="ctrl-group">
+          <div class="ctrl-label">
+            <i class="fa fa-arrows-left-right"></i> Divider Gap
+            <span class="ctrl-val" id="colGapVal">8px</span>
+          </div>
+          <input type="range" class="ctrl-slider" id="colGapSlider" min="0" max="60" value="8" step="2">
+        </div>
+
+        <!-- Page Margin -->
+        <div class="ctrl-group">
+          <div class="ctrl-label">
+            <i class="fa fa-border-all"></i> Page Margin
+            <span class="ctrl-val" id="marginVal">16px</span>
+          </div>
+          <input type="range" class="ctrl-slider" id="marginSlider" min="0" max="100" value="16" step="2">
+        </div>
+
+        <!-- Signature toggle -->
+        <div class="ctrl-group">
+          <div class="ctrl-label"><i class="fa fa-signature"></i> Signature</div>
+          <div class="toggle-row">
+            <span class="toggle-label">Show on main image</span>
+            <label class="toggle-switch">
+              <input type="checkbox" id="showSigToggle" checked>
+              <span class="toggle-track"><span class="toggle-thumb"></span></span>
+            </label>
+          </div>
+        </div>
+
+        <!-- Canvas Zoom -->
+        <div class="ctrl-group">
+          <div class="ctrl-label">
+            <i class="fa fa-magnifying-glass"></i> Canvas Zoom
+            <span class="ctrl-val" id="zoomVal">80%</span>
+          </div>
+          <div class="zoom-row">
+            <button class="icon-btn" id="zoomOutBtn" title="Zoom out"><i class="fa fa-minus"></i></button>
+            <input type="range" class="ctrl-slider" id="zoomSlider" min="10" max="200" value="80" step="5">
+            <button class="icon-btn" id="zoomInBtn" title="Zoom in"><i class="fa fa-plus"></i></button>
+          </div>
+          <button class="fit-btn" id="fitBtn">
+            <i class="fa fa-expand-arrows-alt"></i> Fit to Screen
+          </button>
+        </div>
+
+      </div><!-- /sidebar-inner -->
+    </aside>
+
+    <!-- ─── CANVAS AREA ─── -->
+    <div class="canvas-wrap" id="canvasWrap">
+      <div class="canvas-scroll" id="canvasScroll">
+        <div class="scaler" id="scaler">
+          <div class="page" id="page">
+            <div class="page-inner" id="pageInner">
+              <!-- Layout injected by script.js -->
+            </div>
+            <div class="page-credit" id="pageCredit">
+              Designed by &mdash; Muhtasim Rahman &nbsp;|&nbsp; mdturzo.web.app
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
 
-    <!-- Exporter Script -->
-    <script src="https://muhtasim-rahman.github.io/exporter-pro/export.js">
-    </script>
+  </div><!-- /app-container -->
 
-    <!-- Footer -->
-    <footer class="site-footer">
-        <a href="https://mdturzo.web.app" target="_blank" rel="noopener" class="footer-badge" title="Visit Portfolio">
-            <img src="images/09.jpg" alt="Muhtasim Rahman" class="footer-badge-avatar" onerror="this.style.display='none';">
-            <div class="footer-badge-info">
-                <span class="name">Muhtasim Rahman</span>
-                <span class="link-hint">mdturzo.web.app</span>
-            </div>
-        </a>
-        <div class="footer-socials">
-            <a href="https://github.com/Muhtasim-Rahman/sgsc-friends-ssc26" target="_blank" rel="noopener" title="GitHub Repository">
-                <i class="fa-brands fa-github"></i>
-            </a>
-            <a href="https://linkedin.com/in/muhtasim-rahman" target="_blank" rel="noopener" title="LinkedIn">
-                <i class="fa-brands fa-linkedin-in"></i>
-            </a>
-            <a href="https://youtube.com/@muhtasimrahman" target="_blank" rel="noopener" title="YouTube">
-                <i class="fa-brands fa-youtube"></i>
-            </a>
-            <a href="https://facebook.com/muhtasim.rahman.turzo" target="_blank" rel="noopener" title="Facebook">
-                <i class="fa-brands fa-facebook-f"></i>
-            </a>
+  <!-- ═══════════════════ EXPORT PANEL ═══════════════════ -->
+  <section class="export-section">
+    <div class="export-inner">
+      <div class="export-panel">
+
+        <div class="ep-header">
+          <i class="fa fa-download"></i>
+          <span>Export Banner</span>
         </div>
-    </footer>
 
-    <!-- Toast notification -->
-    <div class="toast" id="toast"></div>
+        <div class="ep-body">
 
-    <script>
-        (function() {
-            // ============ STATE ============
-            const TOTAL_IMAGES = 61;
-            const allImages = [];
-            for (let i = 1; i <= TOTAL_IMAGES; i++) {
-                const padded = String(i).padStart(2, '0');
-                allImages.push(padded + '.jpg');
-            }
+          <div class="ep-group">
+            <div class="ep-label">Format</div>
+            <div class="ep-opts" id="fmtOpts">
+              <button class="ep-opt active" data-fmt="png">PNG</button>
+              <button class="ep-opt" data-fmt="jpg">JPG</button>
+              <button class="ep-opt" data-fmt="webp">WebP</button>
+            </div>
+          </div>
 
-            let state = {
-                mainImage: '09.jpg',
-                layoutType: 'landscape-right',
-                gridDensity: '10x6',
-                customWidth: 1200,
-                customHeight: 445,
-                activePreset: '851:315',
-            };
+          <div class="ep-group">
+            <div class="ep-label">Scale</div>
+            <div class="ep-opts ep-scale" id="scaleOpts">
+              <button class="ep-opt" data-scale="0.5">0.5x</button>
+              <button class="ep-opt active" data-scale="1">1x</button>
+              <button class="ep-opt" data-scale="2">2x</button>
+              <button class="ep-opt" data-scale="3">3x</button>
+              <button class="ep-opt ep-warn" data-scale="4" title="Very large file">4x &#9888;</button>
+              <button class="ep-opt ep-warn" data-scale="6" title="Extremely large">6x &#9888;</button>
+              <button class="ep-opt ep-warn" data-scale="8" title="May crash browser">8x &#9888;</button>
+            </div>
+            <div class="scale-warning" id="scaleWarning" style="display:none">
+              <i class="fa fa-triangle-exclamation"></i>
+              High scale: very large file, may be slow or crash the browser tab.
+            </div>
+          </div>
 
-            // ============ DOM REFS ============
-            const gridContainer = document.getElementById('gridContainer');
-            const mainImageContainer = document.getElementById('mainImageContainer');
-            const mainImage = document.getElementById('mainImage');
-            const mainImageLabel = document.querySelector('.main-image-label');
-            const collagePage = document.getElementById('collagePage');
-            const pageWrapper = document.getElementById('pageWrapper');
-            const layoutTypeSelect = document.getElementById('layoutType');
-            const gridDensitySelect = document.getElementById('gridDensity');
-            const customWidthInput = document.getElementById('customWidth');
-            const customHeightInput = document.getElementById('customHeight');
-            const ratioDisplay = document.getElementById('ratioDisplay');
-            const presetBtns = document.getElementById('presetBtns');
-            const toast = document.getElementById('toast');
+          <div class="ep-preview-size" id="epPreviewSize">Output: 1640 × 624 px — PNG</div>
 
-            // ============ FUNCTIONS ============
-            function getGridImages() {
-                // Return all images except the main one, in numeric order
-                return allImages.filter(img => img !== state.mainImage);
-            }
+          <button class="ep-download-btn" id="downloadBtn">
+            <i class="fa fa-download"></i> Download Banner
+          </button>
 
-            function getImageIndex(filename) {
-                return allImages.indexOf(filename);
-            }
+          <div class="ep-progress-wrap" id="epProgressWrap" style="display:none">
+            <div class="ep-progress-track">
+              <div class="ep-progress-bar" id="epProgressBar" style="width:0%"></div>
+            </div>
+            <div class="ep-console" id="epConsole"></div>
+          </div>
 
-            function renderGrid() {
-                const gridImages = getGridImages();
-                gridContainer.innerHTML = '';
+        </div>
+      </div>
+    </div>
+  </section>
 
-                gridImages.forEach(img => {
-                    const thumb = document.createElement('img');
-                    thumb.src = 'images/' + img;
-                    thumb.alt = img;
-                    thumb.classList.add('thumb');
-                    thumb.title = 'Click to make main: ' + img;
-                    thumb.loading = 'lazy';
-                    thumb.onerror = function() {
-                        this.src =
-                            'data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22120%22 height=%22160%22><rect fill=%22%23dde0e5%22 width=%22120%22 height=%22160%22/><text x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dy=%22.3em%22 fill=%22%23999%22 font-size=%2212%22>' +
-                            img + '</text></svg>';
-                    };
-                    thumb.addEventListener('click', function() {
-                        swapMainImage(img);
-                    });
-                    gridContainer.appendChild(thumb);
-                });
-            }
+  <!-- ═══════════════════ HOW TO USE ═══════════════════ -->
+  <section class="guide-section">
+    <div class="guide-inner">
+      <div class="guide-header">
+        <h2 class="guide-title">How to Use</h2>
+        <p class="guide-sub">Step-by-step guide to create your SSC-26 batch banner</p>
+        <a href="https://github.com/mdturzo999/sgsc-friends-ssc26#readme"
+           target="_blank" rel="noopener" class="readme-link">
+          <i class="fab fa-github"></i> Full README on GitHub
+        </a>
+      </div>
 
-            function renderMainImage() {
-                mainImage.src = 'images/' + state.mainImage;
-                mainImage.alt = state.mainImage;
-                mainImageLabel.textContent = 'Main: ' + state.mainImage;
-                mainImage.onerror = function() {
-                    this.src =
-                        'data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22300%22 height=%22400%22><rect fill=%22%23c8ccd4%22 width=%22300%22 height=%22400%22/><text x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dy=%22.3em%22 fill=%22%23888%22 font-size=%2220%22>Main</text></svg>';
-                };
-            }
+      <div class="guide-grid">
+        <div class="guide-card">
+          <div class="guide-num">01</div>
+          <div class="guide-icon"><i class="fa fa-folder-open"></i></div>
+          <h3>Add Photos</h3>
+          <p>Place all 61 friend photos inside the <code>images/</code> folder. Name them <code>01.jpg</code> through <code>61.jpg</code>. Recommended ratio: 4:3 (landscape). Open <code>index.html</code> in your browser.</p>
+        </div>
 
-            function swapMainImage(newMain) {
-                if (newMain === state.mainImage) return;
-                const oldMain = state.mainImage;
-                state.mainImage = newMain;
-                renderGrid();
-                renderMainImage();
-                showToast('Main image swapped to ' + newMain + ' (was ' + oldMain + ')');
-            }
+        <div class="guide-card">
+          <div class="guide-num">02</div>
+          <div class="guide-icon"><i class="fa fa-ruler-combined"></i></div>
+          <h3>Set Page Size</h3>
+          <p>Pick a preset (Facebook Banner is default at 1640×624px) or type custom dimensions. Enable the lock icon to maintain aspect ratio while resizing. Canvas auto-fits to your screen.</p>
+        </div>
 
-            function updateLayoutClass() {
-                // Remove all layout classes
-                const layoutClasses = [
-                    'layout-landscape-right',
-                    'layout-landscape-left',
-                    'layout-portrait-bottom',
-                    'layout-portrait-top',
-                    'layout-center',
-                ];
-                layoutClasses.forEach(cls => collagePage.classList.remove(cls));
+        <div class="guide-card">
+          <div class="guide-num">03</div>
+          <div class="guide-icon"><i class="fa fa-table-cells-large"></i></div>
+          <h3>Choose Layout</h3>
+          <p>Select <strong>2-Column</strong> for side-by-side, <strong>2-Row</strong> for stacked, or <strong>Center</strong> to place the main image surrounded by all friends. Switch main image position with the Side selector.</p>
+        </div>
 
-                // Add the current layout class
-                collagePage.classList.add('layout-' + state.layoutType);
+        <div class="guide-card">
+          <div class="guide-num">04</div>
+          <div class="guide-icon"><i class="fa fa-hand-pointer"></i></div>
+          <h3>Swap Main Image</h3>
+          <p>Click any thumbnail in the image grid to make it the <strong>featured main image</strong>. The previous main photo returns to its correct serial position automatically. Serial order is always maintained.</p>
+        </div>
 
-                // Update grid density class
-                gridContainer.classList.remove('grid-10x6', 'grid-12x5');
-                if (state.layoutType === 'center') {
-                    // Center layout uses its own grid structure
-                    gridContainer.classList.add('grid-10x6'); // default for center
-                } else {
-                    gridContainer.classList.add('grid-' + state.gridDensity);
-                }
-            }
+        <div class="guide-card">
+          <div class="guide-num">05</div>
+          <div class="guide-icon"><i class="fa fa-left-right"></i></div>
+          <h3>Drag to Resize</h3>
+          <p>Hover over the <strong>divider bar</strong> between the image grid and the main image. A blue handle appears — drag it left/right (or up/down in 2-row mode) to adjust proportions in real-time.</p>
+        </div>
 
-            function updatePageSize() {
-                const w = state.customWidth;
-                const h = state.customHeight;
-                collagePage.style.width = w + 'px';
-                collagePage.style.height = h + 'px';
+        <div class="guide-card">
+          <div class="guide-num">06</div>
+          <div class="guide-icon"><i class="fa fa-sliders"></i></div>
+          <h3>Fine-tune Style</h3>
+          <p>Adjust image gap, divider gap, page margin, grid columns (10×6, 12×5, etc.), and canvas zoom from the sidebar. Use <strong>Fit to Screen</strong> to reset zoom. All changes are live on the canvas.</p>
+        </div>
 
-                // In landscape 2-col: left grid ~72%, right main ~28%
-                // In portrait: grid ~65%, main ~35%
-                // In center: handled by CSS grid
-                if (state.layoutType === 'landscape-right' || state.layoutType === 'landscape-left') {
-                    const gridWidth = Math.round(w * 0.72);
-                    const mainWidth = w - gridWidth - 6; // 6px gap
-                    gridContainer.style.width = gridWidth + 'px';
-                    gridContainer.style.height = h + 'px';
-                    mainImageContainer.style.width = mainWidth + 'px';
-                    mainImageContainer.style.height = h + 'px';
-                } else if (state.layoutType === 'portrait-bottom' || state.layoutType === 'portrait-top') {
-                    const gridHeight = Math.round(h * 0.62);
-                    const mainHeight = h - gridHeight - 6;
-                    gridContainer.style.width = w + 'px';
-                    gridContainer.style.height = gridHeight + 'px';
-                    mainImageContainer.style.width = w + 'px';
-                    mainImageContainer.style.height = mainHeight + 'px';
-                } else if (state.layoutType === 'center') {
-                    gridContainer.style.width = '';
-                    gridContainer.style.height = '';
-                    mainImageContainer.style.width = '';
-                    mainImageContainer.style.height = '';
-                }
+        <div class="guide-card">
+          <div class="guide-num">07</div>
+          <div class="guide-icon"><i class="fa fa-download"></i></div>
+          <h3>Export Image</h3>
+          <p>In the Export panel below, choose format (PNG / JPG / WebP) and scale (1x default, up to 8x). Click <strong>Download Banner</strong>. A progress bar tracks rendering. File downloads with resolution in the filename.</p>
+        </div>
 
-                // Update ratio display
-                const ratio = w / h;
-                ratioDisplay.textContent = 'Ratio: ~' + ratio.toFixed(2) + ':1';
-            }
+        <div class="guide-card">
+          <div class="guide-num">08</div>
+          <div class="guide-icon"><i class="fa fa-share-nodes"></i></div>
+          <h3>Share</h3>
+          <p>Upload the exported file to Facebook as a cover photo or banner, share it in your batch WhatsApp/Messenger group, or print it as a keepsake. Built for SGSC SSC-26 — All Boys!</p>
+        </div>
+      </div>
 
-            function showToast(message) {
-                toast.textContent = message;
-                toast.classList.add('show');
-                clearTimeout(toast._timeout);
-                toast._timeout = setTimeout(() => {
-                    toast.classList.remove('show');
-                }, 2200);
-            }
+      <div class="guide-note">
+        <i class="fa fa-circle-info"></i>
+        For best results, serve from a local server (VS Code Live Server, Python <code>http.server</code>) or deploy to GitHub Pages. Running directly from the file system may affect image rendering in exports.
+      </div>
+    </div>
+  </section>
 
-            function applyPreset(ratioStr) {
-                const [w, h] = ratioStr.split(':').map(Number);
-                state.customWidth = w;
-                state.customHeight = h;
-                state.activePreset = ratioStr;
-                customWidthInput.value = w;
-                customHeightInput.value = h;
-                updatePageSize();
-                updatePresetButtons();
-            }
+  <!-- ═══════════════════ FOOTER ═══════════════════ -->
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div class="footer-center">
+        <a href="https://mdturzo.web.app" target="_blank" rel="noopener" class="footer-badge">
+          <img src="images/muhtasim.webp" alt="Muhtasim Rahman" class="badge-avatar"
+               onerror="this.onerror=null; this.src='images/09.jpg';">
+          <div class="badge-info">
+            <span class="badge-name">Muhtasim Rahman</span>
+            <span class="badge-url">mdturzo.web.app</span>
+          </div>
+        </a>
 
-            function updatePresetButtons() {
-                const buttons = presetBtns.querySelectorAll('.preset-btn');
-                buttons.forEach(btn => {
-                    const ratio = btn.getAttribute('data-ratio');
-                    if (ratio === state.activePreset) {
-                        btn.classList.add('active');
-                    } else {
-                        btn.classList.remove('active');
-                    }
-                });
-            }
+        <div class="social-row">
+          <a href="https://github.com/mdturzo999/sgsc-friends-ssc26"
+             target="_blank" rel="noopener" class="social-icon" title="GitHub Repository">
+            <i class="fab fa-github"></i>
+          </a>
+          <a href="https://linkedin.com/in/mdturzo999"
+             target="_blank" rel="noopener" class="social-icon" title="LinkedIn">
+            <i class="fab fa-linkedin-in"></i>
+          </a>
+          <a href="https://youtube.com/@mdturzo999"
+             target="_blank" rel="noopener" class="social-icon" title="YouTube">
+            <i class="fab fa-youtube"></i>
+          </a>
+          <a href="https://facebook.com/mdturzo999"
+             target="_blank" rel="noopener" class="social-icon" title="Facebook">
+            <i class="fab fa-facebook-f"></i>
+          </a>
+        </div>
 
-            // ============ INIT ============
-            function init() {
-                renderGrid();
-                renderMainImage();
-                updateLayoutClass();
-                updatePageSize();
-                updatePresetButtons();
+        <p class="footer-copy">&copy; 2025 Muhtasim Rahman &mdash; SGSC Banner Studio</p>
+      </div>
+    </div>
+  </footer>
 
-                // Set initial select values
-                layoutTypeSelect.value = state.layoutType;
-                gridDensitySelect.value = state.gridDensity;
-                customWidthInput.value = state.customWidth;
-                customHeightInput.value = state.customHeight;
-            }
-
-            // ============ EVENT LISTENERS ============
-            layoutTypeSelect.addEventListener('change', function() {
-                state.layoutType = this.value;
-                updateLayoutClass();
-                updatePageSize();
-                renderGrid(); // re-render for center layout structure
-                showToast('Layout: ' + this.options[this.selectedIndex].text);
-            });
-
-            gridDensitySelect.addEventListener('change', function() {
-                state.gridDensity = this.value;
-                updateLayoutClass();
-                updatePageSize();
-                showToast('Grid: ' + this.value);
-            });
-
-            customWidthInput.addEventListener('input', function() {
-                const val = parseInt(this.value);
-                if (val && val >= 200 && val <= 4000) {
-                    state.customWidth = val;
-                    state.activePreset = null;
-                    updatePageSize();
-                    updatePresetButtons();
-                }
-            });
-
-            customHeightInput.addEventListener('input', function() {
-                const val = parseInt(this.value);
-                if (val && val >= 200 && val <= 4000) {
-                    state.customHeight = val;
-                    state.activePreset = null;
-                    updatePageSize();
-                    updatePresetButtons();
-                }
-            });
-
-            presetBtns.addEventListener('click', function(e) {
-                const btn = e.target.closest('.preset-btn');
-                if (!btn) return;
-                const ratioStr = btn.getAttribute('data-ratio');
-                applyPreset(ratioStr);
-                showToast('Preset applied: ' + btn.textContent.trim());
-            });
-
-            // Keyboard shortcut for quick swap
-            document.addEventListener('keydown', function(e) {
-                if (e.ctrlKey && e.key === 's') {
-                    e.preventDefault();
-                    showToast('Use the Export button to download your collage.');
-                }
-            });
-
-            // Handle window resize for responsive scaling
-            function handleResize() {
-                const wrapperWidth = pageWrapper.clientWidth - 32;
-                const pageWidth = state.customWidth;
-                if (pageWidth > wrapperWidth && wrapperWidth > 300) {
-                    const scale = wrapperWidth / pageWidth;
-                    collagePage.style.transform = 'scale(' + scale + ')';
-                    collagePage.style.transformOrigin = 'top center';
-                } else {
-                    collagePage.style.transform = 'scale(1)';
-                    collagePage.style.transformOrigin = 'top center';
-                }
-            }
-
-            window.addEventListener('resize', handleResize);
-            handleResize();
-
-            // ============ START ============
-            init();
-
-            // Log info
-            console.log('%c SGSC Friends Collage %c SSC-26 ',
-                'background:#4f6ef7;color:#fff;padding:4px 8px;border-radius:4px 0 0 4px;font-weight:bold;',
-                'background:#1a1d23;color:#fff;padding:4px 8px;border-radius:0 4px 4px 0;');
-            console.log('Total images: ' + TOTAL_IMAGES + ' | Default main: 09.jpg');
-            console.log('Click any thumbnail to swap the main image.');
-            console.log('Repo: github.com/Muhtasim-Rahman/sgsc-friends-ssc26');
-        })();
-    </script>
+  <!-- html2canvas (export engine) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>
